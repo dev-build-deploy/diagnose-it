@@ -197,7 +197,7 @@ export class ExpressiveMessage extends Error {
 
       if (this._columnNumber !== undefined && this._lineNumber === lineNumber) {
         this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._columnNumber)}\u001b[32;1m^${"-".repeat(
-          this.context.length > 0 ? this._context.length - 1 : 0
+          this._context.length > 0 ? this._context.length - 1 : 0
         )}\u001b[0m\n`;
       }
     });

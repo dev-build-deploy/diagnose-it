@@ -1,6 +1,6 @@
 {
   "name": "@dev-build-deploy/diagnose-it",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "Expressive Diagnostics library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
