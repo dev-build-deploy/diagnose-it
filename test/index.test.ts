@@ -84,4 +84,16 @@ describe("Expressive Message", () => {
       }).toString();
     }).toThrowError();
   });
+
+  test("Zero length context", () => {
+    expect(() => {
+      new ExpressiveMessage({
+        id: "example",
+        message: "Subject",
+        type: "error",
+        lineNumber: 0,
+        context: { index: 0, lines: ["Line 1", "Line 2", "Line 3"], length: 0 },
+      }).toString();
+    }).not.toThrowError();
+  });
 });
