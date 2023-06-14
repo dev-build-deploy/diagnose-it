@@ -9,7 +9,8 @@ import { ExpressiveMessage } from "../src/index";
 /**
  * Remove ANSI Color codes from string
  */
-const removeColorCodes = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, "");
+// eslint-disable-next-line no-control-regex
+const removeColorCodes = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, "");  
 
 describe("Expressive Message", () => {
   test("Minimal usage", () => {
