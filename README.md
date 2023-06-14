@@ -20,7 +20,7 @@ Lightweight diagnostics logger, based on [LLVMs Expressive Diagnostics specifica
 ## Usage
 
 ```ts
-import { ExpressiveMessage } from 'diagnose-it';
+import { ExpressiveMessage } from '@dev-build-deploy/diagnose-it';
 
 const lines = `steps:
   - uses: actions/checkout@v2
