@@ -8,14 +8,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 Lightweight diagnostics logger, based on [LLVMs Expressive Diagnostics specification]:
 
-<pre><span style="font-weight: bold;">example.yaml:9:4: </span><span style="font-weight: bold; color: #aa0000;">error:</span><span style="font-weight: bold;"> Invalid keyword: 'neds'</span>
+<img src="./docs/example.svg" width="100%">
 
-<span style="color: #8a8a8a;">   7 | steps:
-</span><span style="color: #8a8a8a;">   8 |   - uses: actions/checkout@v2
-</span>   9 |   - neds: [build, test]
-     |     <span style="font-weight: bold; color: #00aa00;">^---</span>
-<span style="color: #8a8a8a;">  10 |   - uses: actions/setup-node@v2
-</span></pre>
 
 ## Features
 

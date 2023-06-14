@@ -9,7 +9,7 @@
     "format": "prettier --write **/*.ts && prettier --write **/*.ts"
   },
   "author": "Kevin de Jong",
-  "license": "GPL3.0-or-later",
+  "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",
     "url": "git+"
