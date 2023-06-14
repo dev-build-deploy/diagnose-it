@@ -1,5 +1,5 @@
 {
-  "name": "diagnose-it",
+  "name": "@dev-build-deploy/diagnose-it",
   "version": "0.0.0",
   "description": "Expressive Diagnostics library",
   "main": "index.js",
