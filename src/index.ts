@@ -77,21 +77,13 @@ export class ExpressiveMessage extends Error {
     super();
 
     if (message) {
-      this.id(message.id);
-      switch (message.type) {
-        case "error":
-          this.error(message.message);
-          break;
-        case "warning":
-          this.warning(message.message);
-          break;
-        case "note":
-          this.note(message.message);
-          break;
-      }
-      this.lineNumber(message.lineNumber ?? 0);
-      this.columnNumber(message.columnNumber ?? 0);
+      this._id = message.id;
+      this._message = message.message;
+      this._type = message.type ?? "note";
+      this._lineNumber = message.lineNumber ?? 0;
+      this._columnNumber = message.columnNumber ?? 0;
       this._context = message.context;
+      this.update();
     }
   }
 
@@ -102,6 +94,7 @@ export class ExpressiveMessage extends Error {
    */
   id(id: string): this {
     this._id = id;
+    this.update();
     return this;
   }
 
