@@ -93,7 +93,7 @@ class ExpressiveMessage extends Error {
       this.columnNumber(message.columnNumber ?? 0);
       this._context = message.context;
     }
-  }
+  };
 
   /**
    * Updates the Expressive Diagnostics message identifier (i.e. filename).
@@ -103,7 +103,7 @@ class ExpressiveMessage extends Error {
   public id(id: string): ExpressiveMessage {
     this._id = id;
     return this;
-  }
+  };
 
   /**
    * Updates the Expressive Diagnostics message and marks it as 'error'.
@@ -115,7 +115,7 @@ class ExpressiveMessage extends Error {
     this._type = "error";
     this.update();
     return this;
-  }
+  };
 
   /**
    * Updates the Expressive Diagnostics message and marks it as 'note'.
@@ -127,7 +127,7 @@ class ExpressiveMessage extends Error {
     this._type = "note";
     this.update();
     return this;
-  }
+  };
 
   /**
    * Updates the Expressive Diagnostics message and marks it as 'warning'.
@@ -139,7 +139,7 @@ class ExpressiveMessage extends Error {
     this._type = "warning";
     this.update();
     return this;
-  }
+  };
 
   /**
    * Updates the line number associated with the message.
@@ -150,7 +150,7 @@ class ExpressiveMessage extends Error {
     this._lineNumber = lineNumber;
     this.update();
     return this;
-  }
+  };
 
   /**
    * Updates the column number associated with the message.
@@ -161,7 +161,7 @@ class ExpressiveMessage extends Error {
     this._columnNumber = columnNumber;
     this.update();
     return this;
-  }
+  };
 
   /**
    * Updates the context (lines around the reposted message) associated with the message.
@@ -175,7 +175,7 @@ class ExpressiveMessage extends Error {
     this._context = { index: start, lines: lines, length: length };
     this.update();
     return this;
-  }
+  };
 
   /**
    * Updates the Expressive Diagnostics message.
@@ -208,7 +208,7 @@ class ExpressiveMessage extends Error {
         )}\u001b[0m\n`;
       }
     });
-  }
+  };
 
   /**
    * Resets all internal variables.
@@ -222,7 +222,7 @@ class ExpressiveMessage extends Error {
     this._columnNumber = 0;
     this.message = "";
     return this;
-  }
+  };
 
   /**
    * Generates an Expressive Diagnostics message in formatted output.
@@ -263,7 +263,7 @@ class ExpressiveMessage extends Error {
       throw error;
     }
     return this.message;
-  }
+  };
 }
 
 export { ExpressiveMessage };
