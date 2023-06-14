@@ -8,25 +8,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 Lightweight diagnostics logger, based on [LLVMs Expressive Diagnostics specification]:
 
-<style type="text/css">
+<pre><span style="font-weight: bold;">example.yaml:9:4: </span><span style="font-weight: bold; color: #aa0000;">error:</span><span style="font-weight: bold;"> Invalid keyword: 'neds'</span>
 
-.body_foreground { color: #AAAAAA; }
-.body_background { background-color: #000000; }
-.inv_foreground { color: #000000; }
-.inv_background { background-color: #AAAAAA; }
-.ansi1 { font-weight: bold; }
-.ansi31 { color: #aa0000; }
-.ansi32 { color: #00aa00; }
-.ansi38-245 { color: #8a8a8a; }
-</style>
-<pre class="ansi2html-content">
-<span class="ansi1">example.yaml:9:4: </span><span class="ansi1 ansi31">error:</span><span class="ansi1"> Invalid keyword: 'neds'</span>
-
-<span class="ansi38-245">   7 | steps:
-</span><span class="ansi38-245">   8 |   - uses: actions/checkout@v2
+<span style="color: #8a8a8a;">   7 | steps:
+</span><span style="color: #8a8a8a;">   8 |   - uses: actions/checkout@v2
 </span>   9 |   - neds: [build, test]
-     |     <span class="ansi1 ansi32">^---</span>
-<span class="ansi38-245">  10 |   - uses: actions/setup-node@v2
+     |     <span style="font-weight: bold; color: #00aa00;">^---</span>
+<span style="color: #8a8a8a;">  10 |   - uses: actions/setup-node@v2
 </span></pre>
 
 ## Features
