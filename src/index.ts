@@ -203,7 +203,7 @@ class ExpressiveMessage extends Error {
       this.message += formattedLine;
 
       if (this._columnNumber !== undefined && this._lineNumber === lineNumber) {
-        this.message += `  ${" ".repeat(maxWidth + this._columnNumber)} | \u001b[32;1m^${"-".repeat(
+        this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._columnNumber)}\u001b[32;1m^${"-".repeat(
           this._context.length - 1
         )}\u001b[0m\n`;
       }
