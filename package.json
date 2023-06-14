@@ -1,6 +1,6 @@
 {
   "name": "@dev-build-deploy/diagnose-it",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Expressive Diagnostics library",
   "main": "index.js",
   "types": "lib/index.d.ts",
@@ -11,7 +11,12 @@
   },
   "author": "Kevin de Jong",
   "license": "GPL-3.0-or-later",
-  "keywords": ["Logging", "Diagnostics", "Debugging", "Error Handling"],
+  "keywords": [
+    "Logging",
+    "Diagnostics",
+    "Debugging",
+    "Error Handling"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dev-build-deploy/diagnose-it.git"
