@@ -32,8 +32,8 @@ const chainedMessage = new ExpressiveMessage()
   .id("example.yaml")
   .error("Invalid keyword 'neds'")
   .lineNumber(9)
-  .columnNumber(4)
-  .context(lines, 7, 4);
+  .caret(4, 4)
+  .context(lines, 7);
 
 // Example using constructor
 const message = new ExpressiveMessage({
@@ -41,11 +41,13 @@ const message = new ExpressiveMessage({
   type: "error",
   message: "Invalid keyword 'neds'",
   lineNumber: 9
-  columnNumber: 4
+  caret: {
+    index: 4,
+    length: 4
+  },
   context: {
     lines: lines,
     index: 7,
-    length: 4
   }
 });
 
