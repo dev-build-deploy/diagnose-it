@@ -51,7 +51,8 @@ describe("Expressive Message", () => {
       .id("example")
       .error("Subject")
       .lineNumber(6)
-      .context("Line 1\nLine 2\nLine 3", 5, 4);
+      .caret(0, 4)
+      .context("Line 1\nLine 2\nLine 3", 5);
     expect(removeColorCodes(message.toString())).toBe(`example:6:0: error: Subject
 
   5 | Line 1
@@ -63,7 +64,8 @@ describe("Expressive Message", () => {
       .id("example")
       .error("Subject")
       .lineNumber(99)
-      .context("Line 1\nLine 2\nLine 3", 99, 4);
+      .caret(0, 4)
+      .context("Line 1\nLine 2\nLine 3", 99);
     expect(removeColorCodes(message.toString())).toBe(`example:99:0: error: Subject
 
    99 | Line 1
@@ -80,7 +82,8 @@ describe("Expressive Message", () => {
         message: "Subject",
         type: "error",
         lineNumber: 0,
-        context: { index: 10, lines: ["Line 1", "Line 2", "Line 3"], length: 4 },
+        caret: { index: 0, length: 4 },
+        context: { index: 10, lines: ["Line 1", "Line 2", "Line 3"] },
       }).toString();
     }).toThrowError();
   });
@@ -92,7 +95,32 @@ describe("Expressive Message", () => {
         message: "Subject",
         type: "error",
         lineNumber: 0,
-        context: { index: 0, lines: ["Line 1", "Line 2", "Line 3"], length: 0 },
+        caret: { index: 0, length: 0 },
+        context: { index: 0, lines: ["Line 1", "Line 2", "Line 3"] },
+      }).toString();
+    }).not.toThrowError();
+  });
+
+  test("Caret out of bounds", () => {
+    expect(() => {
+      new ExpressiveMessage({
+        id: "example",
+        message: "Subject",
+        type: "error",
+        lineNumber: -1,
+        caret: { index: -1, length: -1 },
+        context: { index: -1, lines: ["Line 1"] },
+      });
+    }).toThrowError();
+
+    expect(() => {
+      new ExpressiveMessage({
+        id: "example",
+        message: "Subject",
+        type: "error",
+        lineNumber: 0,
+        caret: { index: 10, length: 4 },
+        context: { index: 0, lines: ["Line 1"] },
       }).toString();
     }).not.toThrowError();
   });
