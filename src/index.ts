@@ -47,6 +47,7 @@ interface IExpressiveMessage {
   message: string;
   lineNumber?: number;
   caret?: ICaret;
+  hint?: string;
   context?: IContext;
 }
 
@@ -84,6 +85,7 @@ export class ExpressiveMessage extends Error {
   private _message?: string = undefined;
   private _lineNumber = 0;
   private _caret: ICaret = { index: 0, length: 0 };
+  private _hint?: string;
   private _context?: IContext;
 
   constructor(message?: IExpressiveMessage) {
@@ -186,6 +188,17 @@ export class ExpressiveMessage extends Error {
   }
 
   /**
+   * Updates the hint associated with the message.
+   * @param hint Hint
+   * @returns this
+   */
+  hint(hint: string): this {
+    this._hint = hint;
+    this.update();
+    return this;
+  }
+
+  /**
    * Updates the context (lines around the reposted message) associated with the message.
    * @param lines Lines around the reported message
    * @param start Start index of the reported message
@@ -228,6 +241,10 @@ export class ExpressiveMessage extends Error {
         this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._caret.index)}\u001b[32;1m^${"-".repeat(
           this._caret.length > 0 ? this._caret.length - 1 : 0
         )}\u001b[0m\n`;
+
+        if (this._hint !== undefined) {
+          this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._caret.index)}${this._hint}\n`;
+        }
       }
     });
   }
@@ -247,6 +264,7 @@ export class ExpressiveMessage extends Error {
     }
     if (this._id === undefined) throw new Error("No identifier (i.e. filename) has been provided.");
     if (this._message === undefined) throw new Error("No message has been specified.");
+    if (this._hint && this._caret === undefined) throw new Error("Cannot specify a hint without a caret.");
 
     return this.message;
   }

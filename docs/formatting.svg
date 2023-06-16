@@ -2,14 +2,14 @@
     <foreignObject width="100%" height="100%">
       <div xmlns="http://www.w3.org/1999/xhtml" style="color: #ffffff; background-color: #171B21; padding-left: 10px; padding-top: 1px">
 <pre><span style="font-weight: bold;">example.yaml:9:4: </span><span style="font-weight: bold; color: #aa0000;">error:</span><span style="font-weight: bold;"> Invalid keyword: 'neds'</span>
-
-<span style="color: #8a8a8a;">   7 | steps:
-</span><span style="color: #8a8a8a;">   8 |   - uses: actions/checkout@v2
-</span>   9 |   - neds: [build, test]
-     |     <span style="font-weight: bold; color: #00aa00;">^---</span>
-     |     needs
-<span style="color: #8a8a8a;">  10 |   - uses: actions/setup-node@v2
-</span></pre>
+^            ^ ^  ^      ^
+|            | |  |      |
+|            | |  |      `-- Message
+|            | |  `--------- Message type (error|warning|note)
+|            | `------------ Column number
+|            `-------------- Line number
+`--------------------------- Identifier (i.e. file name)
+</pre>
       </div>
     </foreignObject>
 </svg>
