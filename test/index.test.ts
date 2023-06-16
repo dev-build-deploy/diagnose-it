@@ -34,7 +34,7 @@ describe("Expressive Message", () => {
     }).toThrowError();
   });
 
-  test("Supported types", () => {
+  test("Supported message types (error|warning|note)", () => {
     expect(removeColorCodes(new ExpressiveMessage().id("example").error("Subject").toString())).toBe(
       "example:0:0: error: Subject"
     );
@@ -123,5 +123,24 @@ describe("Expressive Message", () => {
         context: { index: 0, lines: ["Line 1"] },
       }).toString();
     }).not.toThrowError();
+  });
+
+  test("Fix-it Hint", () => {
+    const message = new ExpressiveMessage()
+      .id("example")
+      .error("Subject")
+      .lineNumber(99)
+      .caret(0, 4)
+      .hint("Line")
+      .context("Fony 1\nLine 2\nLine 3", 99);
+
+    expect(removeColorCodes(message.toString())).toBe(`example:99:0: error: Subject
+
+   99 | Fony 1
+      | ^---
+      | Line
+  100 | Line 2
+  101 | Line 3
+`);
   });
 });

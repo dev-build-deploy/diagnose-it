@@ -33,6 +33,7 @@ const chainedMessage = new ExpressiveMessage()
   .error("Invalid keyword 'neds'")
   .lineNumber(9)
   .caret(4, 4)
+  .hint("needs")
   .context(lines, 7);
 
 // Example using constructor
@@ -40,14 +41,15 @@ const message = new ExpressiveMessage({
   id: "example.yaml",
   type: "error",
   message: "Invalid keyword 'neds'",
-  lineNumber: 9
+  lineNumber: 9,
+  hint: "needs",
   caret: {
     index: 4,
     length: 4
   },
   context: {
     lines: lines,
-    index: 7,
+    index: 7
   }
 });
 
@@ -57,6 +59,12 @@ console.log(chainedMessage.toString());
 // Throw as an Error
 throw message;
 ```
+
+## Output format
+
+DiagnoseIt is based on the [expressive diagnostics formatting](https://clang.llvm.org/docs/ClangFormatStyleOptions.html#expressive-diagnostic-formatting);
+
+<img src="./docs/formatting.svg">
 
 ## Contributing
 
