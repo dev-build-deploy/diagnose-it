@@ -51,12 +51,12 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Update version
+        run: npm --no-git-tag-version version ${{ fromJSON(needs.release-me.outputs.release).tag_name }}
+
       - name: Build package
         run: npm run build
 
-      - name: Update version
-        run: npm --no-git-tag-version version ${{ fromJSON(needs.release-me.outputs.release).tag_name }}}
-      
       - name: Publish package
         run: npm publish
         env:
