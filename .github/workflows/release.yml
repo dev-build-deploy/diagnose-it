@@ -52,7 +52,7 @@ jobs:
         run: npm ci
 
       - name: Build package
-        run: npm build
+        run: npm run build
 
       - name: Update version
         run: npm --no-git-tag-version version ${{ fromJSON(needs.release-me.outputs.release).tag_name }}}
@@ -61,4 +61,3 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  
