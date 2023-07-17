@@ -1,7 +1,6 @@
 <!-- 
 SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
-
-SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
 -->
 
 # DiagnoseIt - Expressive Diagnostics Library
@@ -74,7 +73,7 @@ For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
 ## License
 
-- [GPL-3.0-or-later, CC0-1.0](LICENSE) © 2023 Kevin de Jong \<monkaii@hotmail.com\>
+- [MIT](./LICENSES/MIT.txt) © 2023 Kevin de Jong \<monkaii@hotmail.com\>
 
 
 [LLVMs Expressive Diagnostics specification]: https://clang.llvm.org/diagnostics.html
