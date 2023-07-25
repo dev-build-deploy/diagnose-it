@@ -3,7 +3,8 @@ SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
 SPDX-License-Identifier: MIT
 */
 
-import { ExpressiveMessage } from "../src/index";
+import { ExpressiveMessage, extractFromFile } from "../src/index";
+import * as fs from "fs";
 
 /**
  * Remove ANSI Color codes from string
@@ -141,5 +142,23 @@ describe("Expressive Message", () => {
   100 | Line 2
   101 | Line 3
 `);
+  });
+});
+
+describe("Parse from file", () => {
+  test("Parse from file", async () => {
+    for (const entry of fs.readdirSync("test/fixtures")) {
+      if (fs.statSync(`test/fixtures/${entry}`).isDirectory() || entry.endsWith(".fixture")) continue;
+
+      const fixture = JSON.parse(fs.readFileSync(`test/fixtures/${entry}.fixture`, "utf8"));
+      const file = `test/fixtures/${entry}`;
+
+      let index = 0;
+      for await (const message of extractFromFile(file)) {
+        expect(JSON.parse(JSON.stringify(message, null, 2))).toStrictEqual(fixture[index]);
+        index++;
+        console.log(message.toString());
+      }
+    }
   });
 });

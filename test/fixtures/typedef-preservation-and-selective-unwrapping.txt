@@ -1,0 +1,54 @@
+Many programmers use high-level user defined types, typedefs, and other syntactic sugar
+to refer to types in their program. This is useful because they can abbreviate otherwise
+very long types and it is useful to preserve the typename in diagnostics. However, sometimes
+very simple typedefs can wrap trivial types and it is important to strip off the typedef to
+understand what is going on. Clang aims to handle both cases well.
+
+The following example shows where it is important to preserve a typedef in C.
+
+  $ clang -fsyntax-only t.c
+  t.c:15:11: error: can't convert between vector values of different size ('__m128' and 'int const *')
+    myvec[1]/P;
+    ~~~~~~~~^~
+
+The following example shows where it is useful for the compiler to expose underlying details of a
+typedef. If the user was somehow confused about how the system "pid_t" typedef is defined, Clang
+helpfully displays it with "aka".
+
+  $ clang -fsyntax-only t.c
+  t.c:13:9: error: member reference base type 'pid_t' (aka 'int') is not a structure or union
+    myvar = myvar.x;
+            ~~~~~ ^
+
+In C++, type preservation includes retaining any qualification written into type names. For example,
+if we take a small snippet of code such as:
+
+namespace services {
+  struct WebService {  };
+}
+namespace myapp {
+  namespace servers {
+    struct Server {  };
+  }
+}
+
+using namespace myapp;
+void addHTTPService(servers::Server const &server, ::services::WebService const *http) {
+  server += http;
+}
+
+and then compile it, we see that Clang is both providing accurate information and is retaining the
+types as written by the user (e.g., "servers::Server", "::services::WebService"):
+
+  $ clang -fsyntax-only t.cpp
+  t.cpp:9:10: error: invalid operands to binary expression ('servers::Server const' and '::services::WebService const *')
+    server += http;
+    ~~~~~~ ^  ~~~~
+
+Naturally, type preservation extends to uses of templates, and Clang retains information about how a particular
+template specialization (like std::vector<Real>) was spelled within the source code. For example:
+
+  $ clang -fsyntax-only t.cpp
+  t.cpp:12:7: error: incompatible type assigning 'vector<Real>', expected 'std::string' (aka 'class std::basic_string<char>')
+    str = vec;
+        ^ ~~~

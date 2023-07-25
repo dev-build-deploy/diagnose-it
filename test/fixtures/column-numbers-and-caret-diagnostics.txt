@@ -1,0 +1,25 @@
+First, all diagnostics produced by clang include full column number information. The clang command-line
+compiler driver uses this information to print "point diagnostics". (IDEs can use the information to
+display in-line error markup.) This is nice because it makes it very easy to understand exactly what is
+wrong in a particular piece of code.
+
+The point (the green "^" character) exactly shows where the problem is, even inside of a string. This
+makes it really easy to jump to the problem and helps when multiple instances of the same character occur
+on a line. (We'll revisit this more in following examples.)
+
+  $ clang -fsyntax-only format-strings.c
+  format-strings.c:91:13: warning: '.*' specified field precision is missing a matching 'int' argument
+    printf("%.*d");
+              ^
+
+  $ gcc-4.9 -fsyntax-only t.c
+  t.c: In function 'int f(int, int)':
+  t.c:7:39: error: invalid operands to binary + (have 'int' and 'struct A')
+    return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);
+                                      ^
+
+Note that modern versions of GCC have followed Clang's lead, and are now able to give a column for a
+diagnostic, and include a snippet of source text in the result. However, Clang's column number is much more
+accurate, pointing at the problematic format specifier, rather than the ) character the parser had reached
+when the problem was detected. Also, Clang's diagnostic is colored by default, making it easier to distinguish
+from nearby text.
