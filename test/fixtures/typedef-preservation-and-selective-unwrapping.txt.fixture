@@ -1,0 +1,66 @@
+[
+  {
+    "id": "  t.c",
+    "type": "error",
+    "message": "can't convert between vector values of different size ('__m128' and 'int const *')",
+    "lineNumber": 15,
+    "caret": {
+      "index": 11,
+      "length": 1
+    },
+    "context": {
+      "index": 15,
+      "lines": [
+        "   myvec[1]/P;"
+      ]
+    }
+  },
+  {
+    "id": "  t.c",
+    "type": "error",
+    "message": "member reference base type 'pid_t' (aka 'int') is not a structure or union",
+    "lineNumber": 13,
+    "caret": {
+      "index": 9,
+      "length": 1
+    },
+    "context": {
+      "index": 13,
+      "lines": [
+        "   myvar = myvar.x;"
+      ]
+    }
+  },
+  {
+    "id": "  t.cpp",
+    "type": "error",
+    "message": "invalid operands to binary expression ('servers::Server const' and '::services::WebService const *')",
+    "lineNumber": 9,
+    "caret": {
+      "index": 10,
+      "length": 1
+    },
+    "context": {
+      "index": 9,
+      "lines": [
+        "   server += http;"
+      ]
+    }
+  },
+  {
+    "id": "  t.cpp",
+    "type": "error",
+    "message": "incompatible type assigning 'vector<Real>', expected 'std::string' (aka 'class std::basic_string<char>')",
+    "lineNumber": 12,
+    "caret": {
+      "index": 7,
+      "length": 1
+    },
+    "context": {
+      "index": 12,
+      "lines": [
+        "   str = vec;"
+      ]
+    }
+  }
+]

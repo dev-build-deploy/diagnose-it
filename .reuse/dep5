@@ -11,3 +11,6 @@ Files: package*.json
 Copyright: 2023 Kevin de Jong <monkaii@hotmail.com>
 License: CC0-1.0
 
+Files: test/fixtures/*
+Copyright: 2023 Kevin de Jong <monkaii@hotmail.com>
+License: MIT

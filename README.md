@@ -18,6 +18,8 @@ Lightweight diagnostics logger, based on [LLVMs Expressive Diagnostics specifica
 
 ## Usage
 
+### Create an Expressive Diagnostics message
+
 ```ts
 import { ExpressiveMessage } from '@dev-build-deploy/diagnose-it';
 
@@ -59,9 +61,23 @@ console.log(chainedMessage.toString());
 throw message;
 ```
 
+### Parse a (compiler output) file
+
+You can parse a (compiler output) file to retrieve any Expressive Diagnostic message:
+
+```ts
+import * as diagnoseIt from '@dev-build-deploy/diagnose-it';
+
+for await(const message of diagnoseIt.extractFromFile("build.log")) {
+  if (message.toJSON().type === "error") {
+    // Oh noes!
+  }
+}
+```
+
 ## Output format
 
-DiagnoseIt is based on the [expressive diagnostics formatting](https://clang.llvm.org/docs/ClangFormatStyleOptions.html#expressive-diagnostic-formatting);
+DiagnoseIt is based on the [LLVMs Expressive Diagnostics formatting](https://clang.llvm.org/diagnostics.html);
 
 <img src="./docs/formatting.svg">
 

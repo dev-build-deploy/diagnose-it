@@ -1,0 +1,21 @@
+A detail is that we have tried really hard to make the diagnostics that come out of
+clang contain exactly the pertinent information about what is wrong and why. In the
+example above, we tell you what the inferred types are for the left and right hand
+sides, and we don't repeat what is obvious from the point (e.g., that this is a
+"binary +").
+
+Many other examples abound. In the following example, not only do we tell you that
+there is a problem with the * and point to it, we say exactly why and tell you what
+the type is (in case it is a complicated subexpression, such as a call to an
+overloaded function). This sort of attention to detail makes it much easier to
+understand and fix problems quickly.
+
+  $ gcc-4.9 -fsyntax-only t.c
+  t.c:5:10: error: invalid type argument of unary '*' (have 'int')
+    return *SomeA.X;
+           ^
+
+  $ clang -fsyntax-only t.c
+  t.c:5:11: error: indirection requires pointer operand ('int' invalid)
+    int y = *SomeA.X;
+            ^~~~~~~~

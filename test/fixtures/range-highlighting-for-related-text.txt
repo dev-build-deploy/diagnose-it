@@ -1,0 +1,17 @@
+Clang captures and accurately tracks range information for expressions, statements, and other
+constructs in your program and uses this to make diagnostics highlight related information. In
+the following somewhat nonsensical example you can see that you don't even need to see the
+original source code to understand what is wrong based on the Clang error. Because clang prints
+a point, you know exactly which plus it is complaining about. The range information highlights
+the left and right side of the plus which makes it immediately obvious what the compiler is talking
+about. Range information is very useful for cases involving precedence issues and many other cases.
+
+  $ gcc-4.9 -fsyntax-only t.c
+  t.c: In function 'int f(int, int)':
+  t.c:7:39: error: invalid operands to binary + (have 'int' and 'struct A')
+    return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);
+                                        ^
+  $ clang -fsyntax-only t.c
+  t.c:7:39: error: invalid operands to binary expression ('int' and 'struct A')
+    return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);
+                         ~~~~~~~~~~~~~~ ^ ~~~~~

@@ -1,12 +1,15 @@
 /*
-SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
-SPDX-License-Identifier: MIT
-*/
+ * SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
+ * SPDX-License-Identifier: MIT
+ */
 
 import assert from "assert";
 
-// Supported expressive types
-type ExpressiveType = "error" | "warning" | "note";
+/**
+ * Supported expressive types
+ * @internal
+ */
+export type ExpressiveType = "error" | "warning" | "note";
 
 /**
  * Caret (^) position and length
@@ -76,7 +79,7 @@ interface IExpressiveMessage {
  * @function context Context around the error
  * @function toString Returns the formatted message
  *
- * @see https://clang.llvm.org/docs/ClangFormatStyleOptions.html#expressive-diagnostic-formatting
+ * @see https://clang.llvm.org/diagnostics.html
  */
 export class ExpressiveMessage extends Error {
   private _id?: string = undefined;
@@ -266,5 +269,23 @@ export class ExpressiveMessage extends Error {
     if (this._hint && this._caret === undefined) throw new Error("Cannot specify a hint without a caret.");
 
     return this.message;
+  }
+
+  /**
+   * Returns the Expressive Diagnostics message as a JSON object.
+   */
+  toJSON(): IExpressiveMessage {
+    if (this._id === undefined) throw new Error("No identifier (i.e. filename) has been provided.");
+    if (this._message === undefined) throw new Error("No message has been specified.");
+
+    return {
+      id: this._id,
+      type: this._type,
+      message: this._message,
+      lineNumber: this._lineNumber,
+      caret: this._caret,
+      hint: this._hint,
+      context: this._context,
+    };
   }
 }
