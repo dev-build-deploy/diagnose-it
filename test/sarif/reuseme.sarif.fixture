@@ -1,0 +1,52 @@
+[
+  {
+    "id": "reuse-me",
+    "type": "error",
+    "message": "The Project MUST include a License File for every license, but is missing MIT.",
+    "lineNumber": 0,
+    "caret": {
+      "index": 0,
+      "length": 1
+    }
+  },
+  {
+    "id": "./test.sarif",
+    "type": "error",
+    "message": "Each Covered File MUST have Copyright associated with it.",
+    "lineNumber": 0,
+    "caret": {
+      "index": 0,
+      "length": 1
+    }
+  },
+  {
+    "id": "./src/config/tool.json",
+    "type": "error",
+    "message": "Each Covered File MUST have Copyright associated with it.",
+    "lineNumber": 0,
+    "caret": {
+      "index": 0,
+      "length": 1
+    }
+  },
+  {
+    "id": "./test.sarif",
+    "type": "error",
+    "message": "Each Covered File MUST have License Information associated with it.",
+    "lineNumber": 0,
+    "caret": {
+      "index": 0,
+      "length": 1
+    }
+  },
+  {
+    "id": "./src/config/tool.json",
+    "type": "error",
+    "message": "Each Covered File MUST have License Information associated with it.",
+    "lineNumber": 0,
+    "caret": {
+      "index": 0,
+      "length": 1
+    }
+  }
+]

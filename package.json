@@ -39,5 +39,8 @@
   },
   "files": [
     "lib/**/*"
-  ]
+  ],
+  "dependencies": {
+    "@dev-build-deploy/sarif-it": "<1"
+  }
 }

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js",
+    "type": "error",
+    "message": "'x' is assigned a value but never used.",
+    "lineNumber": 1,
+    "caret": {
+      "index": 5,
+      "length": 10
+    },
+    "context": {
+      "index": 1,
+      "lines": [
+        "     x = \"John\""
+      ]
+    }
+  }
+]

@@ -4,4 +4,4 @@
  */
 
 export { ExpressiveMessage } from "./diagnostics";
-export { extractFromFile } from "./parser";
+export { extractFromFile, extractFromSarif } from "./parser";

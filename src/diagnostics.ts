@@ -66,7 +66,7 @@ interface IExpressiveMessage {
  *    10 |     - uses: actions/setup-node@v2
  *    11 |       with:
  *
- * The format is loosely baed onthe LLVM "Expressive Diagnostics" specification, with
+ * The format is loosely based on the LLVM "Expressive Diagnostics" specification, with
  * additional support for context.
  *
  * @class ExpressiveMessage
