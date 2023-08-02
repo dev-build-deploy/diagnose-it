@@ -6,21 +6,63 @@
 import readline from "readline";
 import fs from "fs";
 import { ExpressiveMessage, ExpressiveType } from "./diagnostics";
+import * as sarif from "@dev-build-deploy/sarif-it";
 
 const LLVM_EXPRESSIVE_DIAGNOSTICS_REGEX = new RegExp(
   "(?<file>[\\w,\\s-.]+):(?<lineNumber>[0-9]+):(?<columnNumber>[0-9]+): (?<messageType>(error|warning|note)): (?<message>(.*))"
 );
 
 /**
- * Extracts Expressive Diagnostic messages from a file.
- * This can be used to extract messages from compile output
+ * Extracts Expressive Diagnostic messages from SARIF.
+ *
+ * NOTE: currently we only support:
+ *   - plain text files
+ *   - the results of the last run
+ *
+ * @param sarif The SARIF to extract messages from.
+ * @param run Index of run, defaults to the last run.
+ *
+ * @returns Async Generator of Expressive Messages.
+ */
+export function* extractFromSarif(sarif: sarif.Log, run: number | undefined = undefined) {
+  if (run === undefined) {
+    run = sarif.get("runs").length - 1;
+  }
+
+  const results = sarif.get("runs")[run].results;
+
+  for (const result of results) {
+    for (const location of result.locations) {
+      const message = result.message.text;
+      const line = location.physicalLocation?.region?.startLine;
+      const column = location.physicalLocation?.region?.startColumn;
+      const type = result.level ?? "warning";
+      const file = location.physicalLocation?.artifactLocation.uri;
+      const context = (location.physicalLocation?.region?.snippet) ? {
+        index: line,
+        lines: [location.physicalLocation?.region.snippet.text] }
+        : undefined;
+      const length = location.physicalLocation?.region?.endColumn ? location.physicalLocation.region.endColumn - column : 1;
+
+      yield new ExpressiveMessage({
+        id: file,
+        message: message,
+        type: type as ExpressiveType,
+        lineNumber: line,
+        caret: { index: column, length: length },
+        context: context,
+      });
+    }
+  }
+}
+
+/**
+ * Extracts Expressive Diagnostic messages from a raw file.
+ * This can be used to extract messages from compiler output
  *
  * @param filePath Path to file to extract messages from.
- * @returns Async Generator of Expressive Messages.
- *
- * @see https://clang.llvm.org/diagnostics.html
  */
-export async function* extractFromFile(filePath: string) {
+async function* extractRaw(filePath: string) {
   let currentMessage: ExpressiveMessage | undefined = undefined;
   let matchIndex = 0;
 
@@ -53,5 +95,30 @@ export async function* extractFromFile(filePath: string) {
 
   if (currentMessage) {
     yield currentMessage;
+  }
+}
+
+/**
+ * Extracts Expressive Diagnostic messages from a file.
+ * This can be used to extract messages from compile output
+ *
+ * @param filePath Path to file to extract messages from.
+ * @returns Async Generator of Expressive Messages.
+ *
+ * @see https://clang.llvm.org/diagnostics.html
+ */
+export async function* extractFromFile(filePath: string) {
+
+  if (filePath.endsWith(".sarif") || filePath.endsWith(".json.sarif")) {
+    const sarifData = sarif.Log.fromFile(filePath);
+
+    for (const message of extractFromSarif(sarifData)) {
+      yield message;
+    }
+    return;
+  }
+
+  for await (const message of extractRaw(filePath)) {
+    yield message;
   }
 }

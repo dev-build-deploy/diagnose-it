@@ -162,3 +162,21 @@ describe("Parse from file", () => {
     }
   });
 });
+
+describe("Parse from SARIF file", () => {
+  test("Parse from SARIF file", async () => {
+    for (const entry of fs.readdirSync("test/sarif")) {
+      if (fs.statSync(`test/sarif/${entry}`).isDirectory() || entry.endsWith(".fixture")) continue;
+
+      const fixture = JSON.parse(fs.readFileSync(`test/sarif/${entry}.fixture`, "utf8"));
+      const file = `test/sarif/${entry}`;
+
+      let index = 0;
+      for await (const message of extractFromFile(file)) {
+        expect(JSON.parse(JSON.stringify(message, null, 2))).toStrictEqual(fixture[index]);
+        index++;
+        console.log(message.toString());
+      }
+    }
+  });
+});

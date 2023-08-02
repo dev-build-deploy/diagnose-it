@@ -61,7 +61,7 @@ console.log(chainedMessage.toString());
 throw message;
 ```
 
-### Parse a (compiler output) file
+### Parse a file
 
 You can parse a (compiler output) file to retrieve any Expressive Diagnostic message:
 
@@ -74,6 +74,8 @@ for await(const message of diagnoseIt.extractFromFile("build.log")) {
   }
 }
 ```
+
+> **NOTE**: Any `.sarif` or `.sarif.json` file will be parsed for valid SARIF results content
 
 ## Output format
 
