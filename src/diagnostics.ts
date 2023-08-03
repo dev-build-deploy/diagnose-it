@@ -220,10 +220,11 @@ export class ExpressiveMessage extends Error {
    */
   private update() {
     const GREEN = "\x1b[0;32m";
+    const LIGHT_PURPLE = "\x1b[1;35m";
     const RED = "\x1b[1;31m";
 
     this.message = `\x1b[1m${this._id}:${this._lineNumber}:${this._caret.index}: ${
-      this._type === "error" ? RED : GREEN
+      this._type === "error" ? RED : this._type === "warning" ? LIGHT_PURPLE : GREEN
     }${this._type}:\x1b[0m\x1b[1m ${this._message}\x1b[0m`;
     if (this._context === undefined) return;
     this.message += "\n\n";
