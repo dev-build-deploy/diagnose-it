@@ -102,7 +102,8 @@ export class ExpressiveMessage extends Error {
         case "warning":
           this.warning(message.message);
           break;
-        case "note" || undefined:
+        case "note":
+        case undefined:
           this.note(message.message);
           break;
       }
