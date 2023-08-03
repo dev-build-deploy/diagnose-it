@@ -85,8 +85,8 @@ export class ExpressiveMessage extends Error {
   private _id?: string = undefined;
   private _type: ExpressiveType = "note";
   private _message?: string = undefined;
-  private _lineNumber = 0;
-  private _caret: ICaret = { index: 0, length: 0 };
+  private _lineNumber = 1;
+  private _caret: ICaret = { index: 1, length: 1 };
   private _hint?: string;
   private _context?: IContext;
 
@@ -107,9 +107,9 @@ export class ExpressiveMessage extends Error {
           this.note(message.message);
           break;
       }
-      this.lineNumber(message.lineNumber ?? 0);
+      this.lineNumber(message.lineNumber ?? 1);
       if (message.context !== undefined) this.context(message.context.lines, message.context.index);
-      this.caret(message.caret?.index ?? 0, message.caret?.length ?? 0);
+      this.caret(message.caret?.index ?? 1, message.caret?.length ?? 1);
     }
   }
 
@@ -166,7 +166,7 @@ export class ExpressiveMessage extends Error {
    * @returns this
    */
   lineNumber(lineNumber: number): this {
-    if (lineNumber < 0) throw new RangeError("Line number must be greater or equal to 0.");
+    if (lineNumber <= 0) throw new RangeError("Line number must be greater than 0.");
     this._lineNumber = lineNumber;
     this.update();
     return this;
@@ -179,12 +179,12 @@ export class ExpressiveMessage extends Error {
    * @returns this
    */
   caret(columnNumber: number, length?: number): this {
-    if (columnNumber < 0) throw new RangeError("Column number must be greater or equal to 0.");
-    if (length !== undefined && length < 0) throw new RangeError("Caret length must be greater or equal to 0.");
+    if (columnNumber <= 0) throw new RangeError("Column number must be greater than 0.");
+    if (length !== undefined && length <= 0) throw new RangeError("Caret length must be greater than 0.");
 
     this._caret = {
       index: columnNumber,
-      length: length ?? 0,
+      length: length ?? 1,
     };
     this.update();
     return this;
@@ -208,7 +208,7 @@ export class ExpressiveMessage extends Error {
    * @returns this
    */
   context(lines: string | string[], start: number): this {
-    if (start < 0) throw new RangeError("Initial line number must be greater or equal to 0.");
+    if (start < 1) throw new RangeError("Initial line number must be greater than 0.");
 
     if (typeof lines === "string") lines = lines.split("\n");
     this._context = { index: start, lines: lines.length > 0 ? lines : [] };
@@ -242,12 +242,12 @@ export class ExpressiveMessage extends Error {
       this.message += formattedLine;
 
       if (this._lineNumber === lineNumber) {
-        this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._caret.index)}\u001b[32;1m^${"-".repeat(
+        this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._caret.index - 1)}\u001b[32;1m^${"-".repeat(
           this._caret.length > 0 ? this._caret.length - 1 : 0
         )}\u001b[0m\n`;
 
         if (this._hint !== undefined) {
-          this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._caret.index)}${this._hint}\n`;
+          this.message += `  ${" ".repeat(maxWidth)} | ${" ".repeat(this._caret.index - 1)}${this._hint}\n`;
         }
       }
     });
