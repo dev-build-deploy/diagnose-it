@@ -11,7 +11,7 @@
     "context": {
       "index": 5,
       "lines": [
-        "   return *SomeA.X;"
+        "  return *SomeA.X;"
       ]
     }
   },
@@ -27,7 +27,7 @@
     "context": {
       "index": 5,
       "lines": [
-        "   int y = *SomeA.X;"
+        "  int y = *SomeA.X;"
       ]
     }
   }

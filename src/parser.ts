@@ -25,33 +25,40 @@ const LLVM_EXPRESSIVE_DIAGNOSTICS_REGEX = new RegExp(
  * @returns Async Generator of Expressive Messages.
  */
 export function* extractFromSarif(sarif: sarif.Log, run: number | undefined = undefined) {
+  const sarifObj = sarif.properties();
+
   if (run === undefined) {
-    run = sarif.get("runs").length - 1;
+    run = sarifObj.runs.length - 1;
   }
 
-  const results = sarif.get("runs")[run].results;
-
+  const results = sarifObj.runs[run].results ?? [];
   for (const result of results) {
-    for (const location of result.locations) {
-      const message = result.message.text;
-      const line = location.physicalLocation?.region?.startLine;
-      const column = location.physicalLocation?.region?.startColumn;
-      const type = result.level ?? "warning";
-      const file = location.physicalLocation?.artifactLocation.uri;
-      const context = (location.physicalLocation?.region?.snippet) ? {
-        index: line,
-        lines: [location.physicalLocation?.region.snippet.text] }
-        : undefined;
-      const length = location.physicalLocation?.region?.endColumn ? location.physicalLocation.region.endColumn - column : 1;
+    for (const location of result.locations ?? []) {
+      if (result.message.text === undefined || location.physicalLocation === undefined) {
+        continue;
+      }
 
-      yield new ExpressiveMessage({
-        id: file,
-        message: message,
-        type: type as ExpressiveType,
-        lineNumber: line,
-        caret: { index: column, length: length },
-        context: context,
+      const msg = new ExpressiveMessage({
+        id: location.physicalLocation.artifactLocation?.uri ?? "",
+        message: result.message.text,
+        type: (result.level ?? "warning") as ExpressiveType,
       });
+
+      if (location.physicalLocation.region) {
+        const region = location.physicalLocation.region;
+        const line = region.startLine ?? 1;
+        const column = region.startColumn ?? 1;
+        const length = region.endColumn && column ? region.endColumn - column : 1;
+        const snippet = region.snippet?.text;
+
+        msg.lineNumber(line).caret(column ?? 1, length ?? 1);
+
+        if (snippet !== undefined) {
+          msg.context(snippet, line);
+        }
+      }
+
+      yield msg;
     }
   }
 }
@@ -81,13 +88,12 @@ async function* extractRaw(filePath: string) {
         lineNumber: parseInt(match.groups.lineNumber),
         caret: { index: parseInt(match.groups.columnNumber), length: 1 },
       });
-      matchIndex = match.index;
+      matchIndex = line.length - line.trimStart().length;
     } else if (currentMessage) {
       const lineNumber = currentMessage.toJSON().lineNumber;
       if (lineNumber !== undefined) {
-        currentMessage = currentMessage.context(line.substring(matchIndex + 1), lineNumber);
+        currentMessage = currentMessage.context(line.substring(matchIndex), lineNumber);
       }
-
       yield currentMessage;
       currentMessage = undefined;
     }
@@ -108,7 +114,6 @@ async function* extractRaw(filePath: string) {
  * @see https://clang.llvm.org/diagnostics.html
  */
 export async function* extractFromFile(filePath: string) {
-
   if (filePath.endsWith(".sarif") || filePath.endsWith(".json.sarif")) {
     const sarifData = sarif.Log.fromFile(filePath);
 
