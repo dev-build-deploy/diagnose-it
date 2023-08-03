@@ -5,7 +5,7 @@
     "message": "Use of tainted variable 'raw_input' in the insecure function 'eval'.",
     "lineNumber": 8,
     "caret": {
-      "index": 0,
+      "index": 1,
       "length": 1
     }
   }

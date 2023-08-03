@@ -15,11 +15,11 @@ const removeColorCodes = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, "");
 describe("Expressive Message", () => {
   test("Minimal usage", () => {
     expect(removeColorCodes(new ExpressiveMessage().id("example").error("Subject").toString())).toBe(
-      "example:0:0: error: Subject"
+      "example:1:1: error: Subject"
     );
     expect(
       removeColorCodes(new ExpressiveMessage({ id: "example", message: "Subject", type: "error" }).toString())
-    ).toBe("example:0:0: error: Subject");
+    ).toBe("example:1:1: error: Subject");
   });
 
   test("Required parameters", () => {
@@ -36,13 +36,13 @@ describe("Expressive Message", () => {
 
   test("Supported message types (error|warning|note)", () => {
     expect(removeColorCodes(new ExpressiveMessage().id("example").error("Subject").toString())).toBe(
-      "example:0:0: error: Subject"
+      "example:1:1: error: Subject"
     );
     expect(removeColorCodes(new ExpressiveMessage().id("example").note("Subject").toString())).toBe(
-      "example:0:0: note: Subject"
+      "example:1:1: note: Subject"
     );
     expect(removeColorCodes(new ExpressiveMessage().id("example").warning("Subject").toString())).toBe(
-      "example:0:0: warning: Subject"
+      "example:1:1: warning: Subject"
     );
   });
 
@@ -51,9 +51,9 @@ describe("Expressive Message", () => {
       .id("example")
       .error("Subject")
       .lineNumber(6)
-      .caret(0, 4)
+      .caret(1, 4)
       .context("Line 1\nLine 2\nLine 3", 5);
-    expect(removeColorCodes(message.toString())).toBe(`example:6:0: error: Subject
+    expect(removeColorCodes(message.toString())).toBe(`example:6:1: error: Subject
 
   5 | Line 1
   6 | Line 2
@@ -64,9 +64,9 @@ describe("Expressive Message", () => {
       .id("example")
       .error("Subject")
       .lineNumber(99)
-      .caret(0, 4)
+      .caret(1, 4)
       .context("Line 1\nLine 2\nLine 3", 99);
-    expect(removeColorCodes(message.toString())).toBe(`example:99:0: error: Subject
+    expect(removeColorCodes(message.toString())).toBe(`example:99:1: error: Subject
 
    99 | Line 1
       | ^---
@@ -81,8 +81,8 @@ describe("Expressive Message", () => {
         id: "example",
         message: "Subject",
         type: "error",
-        lineNumber: 0,
-        caret: { index: 0, length: 4 },
+        lineNumber: 1,
+        caret: { index: 1, length: 4 },
         context: { index: 10, lines: ["Line 1", "Line 2", "Line 3"] },
       }).toString();
     }).toThrowError();
@@ -94,9 +94,9 @@ describe("Expressive Message", () => {
         id: "example",
         message: "Subject",
         type: "error",
-        lineNumber: 0,
-        caret: { index: 0, length: 0 },
-        context: { index: 0, lines: ["Line 1", "Line 2", "Line 3"] },
+        lineNumber: 1,
+        caret: { index: 1, length: 1 },
+        context: { index: 1, lines: ["Line 1", "Line 2", "Line 3"] },
       }).toString();
     }).not.toThrowError();
   });
@@ -120,7 +120,18 @@ describe("Expressive Message", () => {
         type: "error",
         lineNumber: 0,
         caret: { index: 10, length: 4 },
-        context: { index: 0, lines: ["Line 1"] },
+        context: { index: 1, lines: ["Line 1"] },
+      }).toString();
+    }).toThrowError();
+
+    expect(() => {
+      new ExpressiveMessage({
+        id: "example",
+        message: "Subject",
+        type: "error",
+        lineNumber: 1,
+        caret: { index: 10, length: 4 },
+        context: { index: 1, lines: ["Line 1"] },
       }).toString();
     }).not.toThrowError();
   });
@@ -130,11 +141,11 @@ describe("Expressive Message", () => {
       .id("example")
       .error("Subject")
       .lineNumber(99)
-      .caret(0, 4)
+      .caret(1, 4)
       .hint("Line")
       .context("Fony 1\nLine 2\nLine 3", 99);
 
-    expect(removeColorCodes(message.toString())).toBe(`example:99:0: error: Subject
+    expect(removeColorCodes(message.toString())).toBe(`example:99:1: error: Subject
 
    99 | Fony 1
       | ^---

@@ -47,7 +47,7 @@
                   "endLine": 1,
                   "endColumn": 15,
                   "snippet": {
-                    "text": "     x = \"John\""
+                    "text": "    x = \"John\""
                   }
                 }
               }

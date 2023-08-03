@@ -11,7 +11,7 @@
     "context": {
       "index": 15,
       "lines": [
-        "   myvec[1]/P;"
+        "  myvec[1]/P;"
       ]
     }
   },
@@ -27,7 +27,7 @@
     "context": {
       "index": 13,
       "lines": [
-        "   myvar = myvar.x;"
+        "  myvar = myvar.x;"
       ]
     }
   },
@@ -43,7 +43,7 @@
     "context": {
       "index": 9,
       "lines": [
-        "   server += http;"
+        "  server += http;"
       ]
     }
   },
@@ -59,7 +59,7 @@
     "context": {
       "index": 12,
       "lines": [
-        "   str = vec;"
+        "  str = vec;"
       ]
     }
   }

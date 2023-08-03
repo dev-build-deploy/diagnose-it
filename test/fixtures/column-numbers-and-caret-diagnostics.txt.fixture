@@ -11,7 +11,7 @@
     "context": {
       "index": 91,
       "lines": [
-        "   printf(\"%.*d\");"
+        "  printf(\"%.*d\");"
       ]
     }
   },
@@ -27,7 +27,7 @@
     "context": {
       "index": 7,
       "lines": [
-        "   return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);"
+        "  return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);"
       ]
     }
   }
