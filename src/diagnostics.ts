@@ -7,7 +7,6 @@ import assert from "assert";
 
 /**
  * Supported expressive types
- * @internal
  */
 export type ExpressiveType = "error" | "warning" | "note";
 
