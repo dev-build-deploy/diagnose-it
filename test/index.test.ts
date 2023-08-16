@@ -1,7 +1,7 @@
-/* 
-SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
-SPDX-License-Identifier: MIT
-*/
+/*
+ * SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
+ * SPDX-License-Identifier: MIT
+ */
 
 import { ExpressiveMessage, extractFromFile } from "../src/index";
 import * as fs from "fs";
@@ -14,7 +14,7 @@ const removeColorCodes = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, "");
 
 describe("Expressive Message", () => {
   test("Minimal usage", () => {
-    expect(removeColorCodes(new ExpressiveMessage().id("example").error("Subject").toString())).toBe(
+    expect(removeColorCodes(ExpressiveMessage.error("example", "Subject").toString())).toBe(
       "example:1:1: error: Subject"
     );
     expect(
@@ -29,27 +29,22 @@ describe("Expressive Message", () => {
     expect(() => {
       new ExpressiveMessage().id("example").toString();
     }).toThrowError();
-    expect(() => {
-      new ExpressiveMessage().error("Subject").toString();
-    }).toThrowError();
   });
 
   test("Supported message types (error|warning|note)", () => {
-    expect(removeColorCodes(new ExpressiveMessage().id("example").error("Subject").toString())).toBe(
+    expect(removeColorCodes(ExpressiveMessage.error("example", "Subject").toString())).toBe(
       "example:1:1: error: Subject"
     );
-    expect(removeColorCodes(new ExpressiveMessage().id("example").note("Subject").toString())).toBe(
+    expect(removeColorCodes(ExpressiveMessage.note("example", "Subject").toString())).toBe(
       "example:1:1: note: Subject"
     );
-    expect(removeColorCodes(new ExpressiveMessage().id("example").warning("Subject").toString())).toBe(
+    expect(removeColorCodes(ExpressiveMessage.warning("example", "Subject").toString())).toBe(
       "example:1:1: warning: Subject"
     );
   });
 
   test("Context", () => {
-    let message = new ExpressiveMessage()
-      .id("example")
-      .error("Subject")
+    let message = ExpressiveMessage.error("example", "Subject")
       .lineNumber(6)
       .caret(1, 4)
       .context("Line 1\nLine 2\nLine 3", 5);
@@ -60,9 +55,7 @@ describe("Expressive Message", () => {
     | ^---
   7 | Line 3
 `);
-    message = new ExpressiveMessage()
-      .id("example")
-      .error("Subject")
+    message = ExpressiveMessage.error("example", "Subject")
       .lineNumber(99)
       .caret(1, 4)
       .context("Line 1\nLine 2\nLine 3", 99);
@@ -137,9 +130,7 @@ describe("Expressive Message", () => {
   });
 
   test("Fix-it Hint", () => {
-    const message = new ExpressiveMessage()
-      .id("example")
-      .error("Subject")
+    const message = ExpressiveMessage.error("example", "Subject")
       .lineNumber(99)
       .caret(1, 4)
       .hint("Line")

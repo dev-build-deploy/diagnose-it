@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "tsc --project tsconfig.publish.json",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint --ext .ts .",
     "format": "prettier --write **/*.ts && prettier --write **/*.ts"
   },

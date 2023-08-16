@@ -3,5 +3,5 @@
  * SPDX-License-Identifier: MIT
  */
 
-export { ExpressiveMessage, ExpressiveType } from "./diagnostics";
+export { ExpressiveMessage, ExpressiveType, ICaret, IContext, IExpressiveMessage } from "./diagnostics";
 export { extractFromFile, extractFromSarif } from "./parser";

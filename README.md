@@ -29,9 +29,10 @@ const lines = `steps:
     - uses: actions/setup-node@v2`;
 
 // Example using Method chaining
-const chainedMessage = new ExpressiveMessage()
-  .id("example.yaml")
-  .error("Invalid keyword 'neds'")
+const chainedMessage = ExpressiveMessage
+  // Create an instance of ExpressiveMessage
+  .error("example.yaml", "Invalid keyword 'neds'")
+  // Set additional properties
   .lineNumber(9)
   .caret(4, 4)
   .hint("needs")

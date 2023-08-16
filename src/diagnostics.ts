@@ -16,7 +16,7 @@ export type ExpressiveType = "error" | "warning" | "note";
  * @member index Index of the caret (^)
  * @member length Length of the caret (^)
  */
-interface ICaret {
+export interface ICaret {
   index: number;
   length: number;
 }
@@ -27,7 +27,7 @@ interface ICaret {
  * @member index Starting line number of the reported message
  * @member lines Lines around the reported message
  */
-interface IContext {
+export interface IContext {
   index: number;
   lines: string[];
 }
@@ -42,7 +42,7 @@ interface IContext {
  * @member columnNumber Column number
  * @member context Context around the error
  */
-interface IExpressiveMessage {
+export interface IExpressiveMessage {
   id: string;
   type?: ExpressiveType;
   message: string;
@@ -93,20 +93,10 @@ export class ExpressiveMessage extends Error {
     super();
 
     if (message) {
-      this.id(message.id);
-      switch (message.type) {
-        case "error":
-          this.error(message.message);
-          break;
-        case "warning":
-          this.warning(message.message);
-          break;
-        case "note":
-        case undefined:
-          this.note(message.message);
-          break;
-      }
-      this.lineNumber(message.lineNumber ?? 1);
+      this._id = message.id;
+      this._message = message.message;
+      this._type = message.type ?? "note";
+      this._lineNumber = message.lineNumber ?? 1;
       if (message.context !== undefined) this.context(message.context.lines, message.context.index);
       this.caret(message.caret?.index ?? 1, message.caret?.length ?? 1);
     }
@@ -124,39 +114,48 @@ export class ExpressiveMessage extends Error {
   }
 
   /**
-   * Updates the Expressive Diagnostics message and marks it as 'error'.
+   * Creates a new Expressive Diagnostics message and marks it as an error.
+   * @param id Identifier (i.e. filename)
    * @param message Error message
    * @returns this
    */
-  error(message: string): this {
-    this._message = message;
-    this._type = "error";
-    this.update();
-    return this;
+  static error(id: string, message: string, config?: Partial<IExpressiveMessage>): ExpressiveMessage {
+    return new ExpressiveMessage({
+      ...config,
+      id: id,
+      message: message,
+      type: "error",
+    });
   }
 
   /**
-   * Updates the Expressive Diagnostics message and marks it as 'note'.
+   * Creates a new Expressive Diagnostics message and marks it as 'note'.
+   * @param id Identifier (i.e. filename)
    * @param message Info message
    * @returns this
    */
-  note(message: string): this {
-    this._message = message;
-    this._type = "note";
-    this.update();
-    return this;
+  static note(id: string, message: string, config?: Partial<IExpressiveMessage>): ExpressiveMessage {
+    return new ExpressiveMessage({
+      ...config,
+      id: id,
+      message: message,
+      type: "note",
+    });
   }
 
   /**
-   * Updates the Expressive Diagnostics message and marks it as 'warning'.
+   * Creates a new Expressive Diagnostics message and marks it as 'warning'.
+   * @param id Identifier (i.e. filename)
    * @param message Warning message
    * @returns this
    */
-  warning(message: string): this {
-    this._message = message;
-    this._type = "warning";
-    this.update();
-    return this;
+  static warning(id: string, message: string, config?: Partial<IExpressiveMessage>): ExpressiveMessage {
+    return new ExpressiveMessage({
+      ...config,
+      id: id,
+      message: message,
+      type: "warning",
+    });
   }
 
   /**
@@ -203,10 +202,10 @@ export class ExpressiveMessage extends Error {
   /**
    * Updates the context (lines around the reposted message) associated with the message.
    * @param lines Lines around the reported message
-   * @param start Start index of the reported message
+   * @param start Start index of the reported message (defaults to 1)
    * @returns this
    */
-  context(lines: string | string[], start: number): this {
+  context(lines: string | string[], start = 1): this {
     if (start < 1) throw new RangeError("Initial line number must be greater than 0.");
 
     if (typeof lines === "string") lines = lines.split("\n");
