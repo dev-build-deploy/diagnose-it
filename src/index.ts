@@ -3,5 +3,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-export { ExpressiveMessage, ExpressiveType, ICaret, IContext, IExpressiveMessage } from "./diagnostics";
+export {
+  DiagnosticsContextType,
+  DiagnosticsLevelEnum,
+  DiagnosticsMessage,
+  DiagnosticsMessageType,
+  IDiagnosticsMessage,
+} from "./diagnosticsMessage";
+
+export { FixItHint, RangeType, ModificationType } from "./fixitHint";
+
 export { extractFromFile, extractFromSarif } from "./parser";

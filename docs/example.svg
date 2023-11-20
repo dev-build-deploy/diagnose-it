@@ -6,7 +6,7 @@
 <span style="color: #8a8a8a;">   7 | steps:
 </span><span style="color: #8a8a8a;">   8 |   - uses: actions/checkout@v2
 </span>   9 |   - neds: [build, test]
-     |     <span style="font-weight: bold; color: #00aa00;">^---</span>
+     |     <span style="font-weight: bold; color: #FFFF55;">^~~~</span>
      |     needs
 <span style="color: #8a8a8a;">  10 |   - uses: actions/setup-node@v2
 </span></pre>

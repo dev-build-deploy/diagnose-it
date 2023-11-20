@@ -1,31 +1,31 @@
 [
   {
-    "id": "  t.c",
-    "type": "error",
-    "message": "invalid type argument of unary '*' (have 'int')",
-    "lineNumber": 5,
-    "caret": {
-      "index": 10,
-      "length": 1
+    "file": "t.c",
+    "level": 4,
+    "message": {
+      "text": "invalid type argument of unary '*' (have 'int')",
+      "linenumber": 5,
+      "column": 10
     },
+    "fixitHints": [],
     "context": {
-      "index": 5,
+      "linenumber": 5,
       "lines": [
         "  return *SomeA.X;"
       ]
     }
   },
   {
-    "id": "  t.c",
-    "type": "error",
-    "message": "indirection requires pointer operand ('int' invalid)",
-    "lineNumber": 5,
-    "caret": {
-      "index": 11,
-      "length": 1
+    "file": "t.c",
+    "level": 4,
+    "message": {
+      "text": "indirection requires pointer operand ('int' invalid)",
+      "linenumber": 5,
+      "column": 11
     },
+    "fixitHints": [],
     "context": {
-      "index": 5,
+      "linenumber": 5,
       "lines": [
         "  int y = *SomeA.X;"
       ]

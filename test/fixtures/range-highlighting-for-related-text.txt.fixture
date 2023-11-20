@@ -1,31 +1,31 @@
 [
   {
-    "id": "  t.c",
-    "type": "error",
-    "message": "invalid operands to binary + (have 'int' and 'struct A')",
-    "lineNumber": 7,
-    "caret": {
-      "index": 39,
-      "length": 1
+    "file": "t.c",
+    "level": 4,
+    "message": {
+      "text": "invalid operands to binary + (have 'int' and 'struct A')",
+      "linenumber": 7,
+      "column": 39
     },
+    "fixitHints": [],
     "context": {
-      "index": 7,
+      "linenumber": 7,
       "lines": [
         "  return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);"
       ]
     }
   },
   {
-    "id": "  t.c",
-    "type": "error",
-    "message": "invalid operands to binary expression ('int' and 'struct A')",
-    "lineNumber": 7,
-    "caret": {
-      "index": 39,
-      "length": 1
+    "file": "t.c",
+    "level": 4,
+    "message": {
+      "text": "invalid operands to binary expression ('int' and 'struct A')",
+      "linenumber": 7,
+      "column": 39
     },
+    "fixitHints": [],
     "context": {
-      "index": 7,
+      "linenumber": 7,
       "lines": [
         "  return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);"
       ]

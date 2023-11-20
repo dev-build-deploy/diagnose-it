@@ -1,52 +1,52 @@
 [
   {
-    "id": "reuse-me",
-    "type": "error",
-    "message": "The Project MUST include a License File for every license, but is missing MIT.",
-    "lineNumber": 1,
-    "caret": {
-      "index": 1,
-      "length": 1
-    }
+    "file": "reuse-me",
+    "level": 4,
+    "message": {
+      "text": "The Project MUST include a License File for every license, but is missing MIT.",
+      "linenumber": 1,
+      "column": 1
+    },
+    "fixitHints": []
   },
   {
-    "id": "./test.sarif",
-    "type": "error",
-    "message": "Each Covered File MUST have Copyright associated with it.",
-    "lineNumber": 1,
-    "caret": {
-      "index": 1,
-      "length": 1
-    }
+    "file": "./test.sarif",
+    "level": 4,
+    "message": {
+      "text": "Each Covered File MUST have Copyright associated with it.",
+      "linenumber": 1,
+      "column": 1
+    },
+    "fixitHints": []
   },
   {
-    "id": "./src/config/tool.json",
-    "type": "error",
-    "message": "Each Covered File MUST have Copyright associated with it.",
-    "lineNumber": 1,
-    "caret": {
-      "index": 1,
-      "length": 1
-    }
+    "file": "./src/config/tool.json",
+    "level": 4,
+    "message": {
+      "text": "Each Covered File MUST have Copyright associated with it.",
+      "linenumber": 1,
+      "column": 1
+    },
+    "fixitHints": []
   },
   {
-    "id": "./test.sarif",
-    "type": "error",
-    "message": "Each Covered File MUST have License Information associated with it.",
-    "lineNumber": 1,
-    "caret": {
-      "index": 1,
-      "length": 1
-    }
+    "file": "./test.sarif",
+    "level": 4,
+    "message": {
+      "text": "Each Covered File MUST have License Information associated with it.",
+      "linenumber": 1,
+      "column": 1
+    },
+    "fixitHints": []
   },
   {
-    "id": "./src/config/tool.json",
-    "type": "error",
-    "message": "Each Covered File MUST have License Information associated with it.",
-    "lineNumber": 1,
-    "caret": {
-      "index": 1,
-      "length": 1
-    }
+    "file": "./src/config/tool.json",
+    "level": 4,
+    "message": {
+      "text": "Each Covered File MUST have License Information associated with it.",
+      "linenumber": 1,
+      "column": 1
+    },
+    "fixitHints": []
   }
 ]

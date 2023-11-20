@@ -1,31 +1,31 @@
 [
   {
-    "id": "  format-strings.c",
-    "type": "warning",
-    "message": "'.*' specified field precision is missing a matching 'int' argument",
-    "lineNumber": 91,
-    "caret": {
-      "index": 13,
-      "length": 1
+    "file": "format-strings.c",
+    "level": 3,
+    "message": {
+      "text": "'.*' specified field precision is missing a matching 'int' argument",
+      "linenumber": 91,
+      "column": 13
     },
+    "fixitHints": [],
     "context": {
-      "index": 91,
+      "linenumber": 91,
       "lines": [
         "  printf(\"%.*d\");"
       ]
     }
   },
   {
-    "id": "  t.c",
-    "type": "error",
-    "message": "invalid operands to binary + (have 'int' and 'struct A')",
-    "lineNumber": 7,
-    "caret": {
-      "index": 39,
-      "length": 1
+    "file": "t.c",
+    "level": 4,
+    "message": {
+      "text": "invalid operands to binary + (have 'int' and 'struct A')",
+      "linenumber": 7,
+      "column": 39
     },
+    "fixitHints": [],
     "context": {
-      "index": 7,
+      "linenumber": 7,
       "lines": [
         "  return y + func(y ? ((SomeA.X + 40) + SomeA) / 42 + SomeA.X : SomeA.X);"
       ]
