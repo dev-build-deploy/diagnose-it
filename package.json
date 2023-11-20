@@ -41,6 +41,7 @@
     "lib/**/*"
   ],
   "dependencies": {
-    "@dev-build-deploy/sarif-it": "<1"
+    "@dev-build-deploy/sarif-it": "<1",
+    "chalk": "<5"
   }
 }

@@ -21,42 +21,32 @@ Lightweight diagnostics logger, based on [LLVMs Expressive Diagnostics specifica
 ### Create an Expressive Diagnostics message
 
 ```ts
-import { ExpressiveMessage } from '@dev-build-deploy/diagnose-it';
+import { DiagnosticsMessage, FixItHint } from '@dev-build-deploy/diagnose-it';
 
 const lines = `steps:
   - uses: actions/checkout@v2
   - neds: [build, test]
     - uses: actions/setup-node@v2`;
 
-// Example using Method chaining
-const chainedMessage = ExpressiveMessage
-  // Create an instance of ExpressiveMessage
-  .error("example.yaml", "Invalid keyword 'neds'")
-  // Set additional properties
-  .lineNumber(9)
-  .caret(4, 4)
-  .hint("needs")
-  .context(lines, 7);
-
-// Example using constructor
-const message = new ExpressiveMessage({
-  id: "example.yaml",
-  type: "error",
-  message: "Invalid keyword 'neds'",
-  lineNumber: 9,
-  hint: "needs",
-  caret: {
-    index: 4,
-    length: 4
-  },
-  context: {
-    lines: lines,
-    index: 7
+// Example use case
+const message = DiagnosticsMessage.createError(
+  "example.yaml",
+  {
+    text: "Invalid keyword 'neds'",
+    linenumber: 9,
+    column: 4
   }
-});
+)
+  // Add context to the diagnostics message
+  .setContext(7, lines)
+  // Add a FixIt Hint
+  .addFixitHint(FixItHint.createReplacement({index: 5, length: 4}, "needs"));
 
 // Convert to string
-console.log(chainedMessage.toString());
+console.log(message.toString());
+
+// Apply FixIt Hints
+console.log("Results after applying FixIt Hints:", message.applyFixitHints())
 
 // Throw as an Error
 throw message;

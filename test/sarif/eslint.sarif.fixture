@@ -1,12 +1,12 @@
 [
   {
-    "id": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js",
-    "type": "error",
-    "message": "'x' is assigned a value but never used.",
-    "lineNumber": 1,
-    "caret": {
-      "index": 5,
-      "length": 1
-    }
+    "file": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js",
+    "level": 4,
+    "message": {
+      "text": "'x' is assigned a value but never used.",
+      "linenumber": 1,
+      "column": 5
+    },
+    "fixitHints": []
   }
 ]

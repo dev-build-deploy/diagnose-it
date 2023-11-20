@@ -3,147 +3,34 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { ExpressiveMessage, extractFromFile } from "../src/index";
+import { DiagnosticsLevelEnum, DiagnosticsMessage, FixItHint, extractFromFile } from "../src/index";
 import * as fs from "fs";
 
-/**
- * Remove ANSI Color codes from string
- */
 // eslint-disable-next-line no-control-regex
-const removeColorCodes = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, "");
+const unchalk = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, "");
 
-describe("Expressive Message", () => {
+describe("Diagnostics Message", () => {
   test("Minimal usage", () => {
-    expect(removeColorCodes(ExpressiveMessage.error("example", "Subject").toString())).toBe(
+    expect(unchalk(DiagnosticsMessage.createError("example", { text: "Subject" }).toString())).toBe(
       "example:1:1: error: Subject"
     );
     expect(
-      removeColorCodes(new ExpressiveMessage({ id: "example", message: "Subject", type: "error" }).toString())
+      unchalk(
+        new DiagnosticsMessage({
+          file: "example",
+          level: DiagnosticsLevelEnum.Error,
+          message: { text: "Subject" },
+        }).toString()
+      )
     ).toBe("example:1:1: error: Subject");
   });
+});
 
-  test("Required parameters", () => {
+describe("FixIt Hint", () => {
+  test("Minimal usage", () => {
     expect(() => {
-      new ExpressiveMessage().toString();
-    }).toThrowError();
-    expect(() => {
-      new ExpressiveMessage().id("example").toString();
-    }).toThrowError();
-  });
-
-  test("Supported message types (error|warning|note)", () => {
-    expect(removeColorCodes(ExpressiveMessage.error("example", "Subject").toString())).toBe(
-      "example:1:1: error: Subject"
-    );
-    expect(removeColorCodes(ExpressiveMessage.note("example", "Subject").toString())).toBe(
-      "example:1:1: note: Subject"
-    );
-    expect(removeColorCodes(ExpressiveMessage.warning("example", "Subject").toString())).toBe(
-      "example:1:1: warning: Subject"
-    );
-  });
-
-  test("Context", () => {
-    let message = ExpressiveMessage.error("example", "Subject")
-      .lineNumber(6)
-      .caret(1, 4)
-      .context("Line 1\nLine 2\nLine 3", 5);
-    expect(removeColorCodes(message.toString())).toBe(`example:6:1: error: Subject
-
-  5 | Line 1
-  6 | Line 2
-    | ^---
-  7 | Line 3
-`);
-    message = ExpressiveMessage.error("example", "Subject")
-      .lineNumber(99)
-      .caret(1, 4)
-      .context("Line 1\nLine 2\nLine 3", 99);
-    expect(removeColorCodes(message.toString())).toBe(`example:99:1: error: Subject
-
-   99 | Line 1
-      | ^---
-  100 | Line 2
-  101 | Line 3
-`);
-  });
-
-  test("Line number out of bounds", () => {
-    expect(() => {
-      new ExpressiveMessage({
-        id: "example",
-        message: "Subject",
-        type: "error",
-        lineNumber: 1,
-        caret: { index: 1, length: 4 },
-        context: { index: 10, lines: ["Line 1", "Line 2", "Line 3"] },
-      }).toString();
-    }).toThrowError();
-  });
-
-  test("Zero length context", () => {
-    expect(() => {
-      new ExpressiveMessage({
-        id: "example",
-        message: "Subject",
-        type: "error",
-        lineNumber: 1,
-        caret: { index: 1, length: 1 },
-        context: { index: 1, lines: ["Line 1", "Line 2", "Line 3"] },
-      }).toString();
+      new FixItHint("INSERT", { index: 1, length: 1 }, "insertion");
     }).not.toThrowError();
-  });
-
-  test("Caret out of bounds", () => {
-    expect(() => {
-      new ExpressiveMessage({
-        id: "example",
-        message: "Subject",
-        type: "error",
-        lineNumber: -1,
-        caret: { index: -1, length: -1 },
-        context: { index: -1, lines: ["Line 1"] },
-      });
-    }).toThrowError();
-
-    expect(() => {
-      new ExpressiveMessage({
-        id: "example",
-        message: "Subject",
-        type: "error",
-        lineNumber: 0,
-        caret: { index: 10, length: 4 },
-        context: { index: 1, lines: ["Line 1"] },
-      }).toString();
-    }).toThrowError();
-
-    expect(() => {
-      new ExpressiveMessage({
-        id: "example",
-        message: "Subject",
-        type: "error",
-        lineNumber: 1,
-        caret: { index: 10, length: 4 },
-        context: { index: 1, lines: ["Line 1"] },
-      }).toString();
-    }).not.toThrowError();
-  });
-
-  test("Fix-it Hint", () => {
-    const message = ExpressiveMessage.error("example", "Subject")
-      .lineNumber(99)
-      .caret(1, 4)
-      .hint("Line")
-      .context("Fony 1\nLine 2\nLine 3", 99);
-
-    expect(removeColorCodes(message.toString())).toBe(`example:99:1: error: Subject
-
-   99 | Fony 1
-      | ^---
-      | Line
-  100 | Line 2
-  101 | Line 3
-`);
   });
 });
 

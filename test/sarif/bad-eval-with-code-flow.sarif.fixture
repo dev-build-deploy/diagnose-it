@@ -1,12 +1,12 @@
 [
   {
-    "id": "3-Beyond-basics/bad-eval-with-code-flow.py",
-    "type": "warning",
-    "message": "Use of tainted variable 'raw_input' in the insecure function 'eval'.",
-    "lineNumber": 8,
-    "caret": {
-      "index": 1,
-      "length": 1
-    }
+    "file": "3-Beyond-basics/bad-eval-with-code-flow.py",
+    "level": 3,
+    "message": {
+      "text": "Use of tainted variable 'raw_input' in the insecure function 'eval'.",
+      "linenumber": 8,
+      "column": 1
+    },
+    "fixitHints": []
   }
 ]

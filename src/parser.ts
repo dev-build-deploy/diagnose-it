@@ -5,12 +5,19 @@
 
 import readline from "readline";
 import fs from "fs";
-import { ExpressiveMessage, ExpressiveType } from "./diagnostics";
+import { DiagnosticsLevelEnum, DiagnosticsMessage } from "./diagnosticsMessage";
 import * as sarif from "@dev-build-deploy/sarif-it";
 
 const LLVM_EXPRESSIVE_DIAGNOSTICS_REGEX = new RegExp(
-  "(?<file>[\\w,\\s-.]+):(?<lineNumber>[0-9]+):(?<columnNumber>[0-9]+): (?<messageType>(error|warning|note)): (?<message>(.*))"
+  "(?:\\s*)(?<file>[\\w,-.]+):(?<lineNumber>[0-9]+):(?<columnNumber>[0-9]+): (?<messageType>(error|warning|note)): (?<message>(.*))"
 );
+
+function getDiagnosticsLevelFromString(value: string): DiagnosticsLevelEnum {
+  if (value === "error") return DiagnosticsLevelEnum.Error;
+  if (value === "warning") return DiagnosticsLevelEnum.Warning;
+
+  return DiagnosticsLevelEnum.Note;
+}
 
 /**
  * Extracts Expressive Diagnostic messages from SARIF.
@@ -38,24 +45,22 @@ export function* extractFromSarif(sarif: sarif.Log, run: number | undefined = un
         continue;
       }
 
-      const msg = new ExpressiveMessage({
-        id: location.physicalLocation.artifactLocation?.uri ?? "",
-        message: result.message.text,
-        type: (result.level ?? "warning") as ExpressiveType,
+      const region = location.physicalLocation.region;
+      const line = region?.startLine ?? 1;
+      const column = region?.startColumn ?? 1;
+      const snippet = region?.snippet?.text;
+
+      const msg = new DiagnosticsMessage({
+        file: location.physicalLocation.artifactLocation?.uri ?? "",
+        message: {
+          text: result.message.text,
+          linenumber: line,
+          column,
+        },
+        level: getDiagnosticsLevelFromString(result.level ?? "warning"),
       });
-
-      if (location.physicalLocation.region) {
-        const region = location.physicalLocation.region;
-        const line = region.startLine ?? 1;
-        const column = region.startColumn ?? 1;
-        const length = region.endColumn && column ? region.endColumn - column : 1;
-        const snippet = region.snippet?.text;
-
-        msg.lineNumber(line).caret(column ?? 1, length ?? 1);
-
-        if (snippet !== undefined) {
-          msg.context(snippet, line);
-        }
+      if (snippet !== undefined) {
+        msg.setContext(line, snippet);
       }
 
       yield msg;
@@ -70,7 +75,7 @@ export function* extractFromSarif(sarif: sarif.Log, run: number | undefined = un
  * @param filePath Path to file to extract messages from.
  */
 async function* extractRaw(filePath: string) {
-  let currentMessage: ExpressiveMessage | undefined = undefined;
+  let currentMessage: DiagnosticsMessage | undefined = undefined;
   let matchIndex = 0;
 
   const lineReader = readline.createInterface({
@@ -81,18 +86,20 @@ async function* extractRaw(filePath: string) {
   for await (const line of lineReader) {
     const match = LLVM_EXPRESSIVE_DIAGNOSTICS_REGEX.exec(line);
     if (match && match.groups) {
-      currentMessage = new ExpressiveMessage({
-        id: match.groups.file,
-        message: match.groups.message,
-        type: match.groups.messageType as ExpressiveType,
-        lineNumber: parseInt(match.groups.lineNumber),
-        caret: { index: parseInt(match.groups.columnNumber), length: 1 },
+      currentMessage = new DiagnosticsMessage({
+        file: match.groups.file,
+        message: {
+          text: match.groups.message,
+          linenumber: parseInt(match.groups.lineNumber),
+          column: parseInt(match.groups.columnNumber),
+        },
+        level: getDiagnosticsLevelFromString(match.groups.messageType),
       });
       matchIndex = line.length - line.trimStart().length;
     } else if (currentMessage) {
-      const lineNumber = currentMessage.toJSON().lineNumber;
+      const lineNumber = currentMessage.message.linenumber;
       if (lineNumber !== undefined) {
-        currentMessage = currentMessage.context(line.substring(matchIndex), lineNumber);
+        currentMessage = currentMessage.setContext(lineNumber, line.substring(matchIndex));
       }
       yield currentMessage;
       currentMessage = undefined;
