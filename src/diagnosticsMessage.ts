@@ -364,7 +364,8 @@ export class DiagnosticsMessage {
       const fixitHint = this.fixitHints.find(
         hint => i >= hint.range.index && i < hint.range.index + (hint.text?.length ?? 0)
       );
-      const char = this.message.column === i ? "^" : fixit !== undefined ? "~" : " ";
+      const char =
+        this.message.column === i && fixit?.modification !== "DEFAULT" ? "^" : fixit !== undefined ? "~" : " ";
       const color = fixit !== undefined ? ModificationColorCodes[fixit.modification] : chalk.bold.green;
 
       caretLine += char !== " " ? color(char) : char;

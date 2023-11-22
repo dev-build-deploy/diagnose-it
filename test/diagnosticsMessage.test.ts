@@ -205,6 +205,38 @@ describe("Diagnostics Message context", () => {
 describe("FixIt Hints (incl. applying fixes)", () => {
   const testData = [
     {
+      description: "Highlight a single character",
+      input: {
+        file: "test.ts",
+        message: { text: "Generic error", linenumber: 100, column: 4 },
+        context: { linenumber: 99, context: ["Line 1", "Lino 2", "Line 3"] },
+        fixit: { modification: "DEFAULT", index: 4, length: 1 },
+      },
+      fixed: `Lino 2`,
+      expected: `test.ts:100:4: note: Generic error
+
+ 99 | Line 1
+100 | Lino 2
+    |    ~
+101 | Line 3`,
+    },
+    {
+      description: "Highlight multiple character(s)",
+      input: {
+        file: "test.ts",
+        message: { text: "Generic error", linenumber: 100, column: 1 },
+        context: { linenumber: 99, context: ["Line 1", "eniL 2", "Line 3"] },
+        fixit: { modification: "DEFAULT", index: 1, length: 4 },
+      },
+      fixed: `eniL 2`,
+      expected: `test.ts:100:1: note: Generic error
+
+ 99 | Line 1
+100 | eniL 2
+    | ~~~~
+101 | Line 3`,
+    },
+    {
       description: "Replace single character",
       input: {
         file: "test.ts",
