@@ -341,6 +341,14 @@ export class DiagnosticsMessage {
     return this;
   }
 
+  /**
+   * Returns the FixIt Hints associated with the Diagnostics Message.
+   * @returns Array of FixIt Hints
+   */
+  getFixitHints(): Array<FixItHint> {
+    return this.fixitHints;
+  }
+
   private getFixitHintsString(prefix: string): Array<string> {
     const elements = new Array<string>();
     if (this.message.column === undefined) return elements;

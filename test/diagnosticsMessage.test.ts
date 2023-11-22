@@ -191,7 +191,7 @@ describe("Diagnostics Message context", () => {
       if (data.expected === undefined) {
         expect(() => {
           msg.setContext(data.input.context.linenumber, data.input.context.context);
-        }).toThrowError();
+        }).toThrow();
         return;
       }
       msg.setContext(data.input.context.linenumber, data.input.context.context);
@@ -352,6 +352,8 @@ describe("FixIt Hints (incl. applying fixes)", () => {
         );
       expect(unchalk(msg.toString())).toBe(data.expected);
       expect(msg.applyFixitHints()).toBe(data.fixed);
+      expect(msg.getFixitHints().length).toBe(1);
+      expect(msg.getFixitHints()[0].modification).toBe(data.input.fixit.modification as ModificationType);
 
       console.log(msg.toString());
     });
