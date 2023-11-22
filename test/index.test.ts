@@ -30,7 +30,7 @@ describe("FixIt Hint", () => {
   test("Minimal usage", () => {
     expect(() => {
       new FixItHint("INSERT", { index: 1, length: 1 }, "insertion");
-    }).not.toThrowError();
+    }).not.toThrow();
   });
 });
 

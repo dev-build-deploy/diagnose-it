@@ -19,6 +19,7 @@ export type RangeType = { index: number; length: number };
 
 /**
  * Modification type associate with this fix-it hint
+ * @member DEFAULT No modification
  * @member INSERT Insertion
  * @member REMOVE Removal
  * @member REPLACE Replacement
@@ -28,15 +29,17 @@ export type RangeType = { index: number; length: number };
  * const modification: ModificationType = "INSERT";
  * ```
  */
-export type ModificationType = "INSERT" | "REMOVE" | "REPLACE";
+export type ModificationType = "DEFAULT" | "INSERT" | "REMOVE" | "REPLACE";
 
 /**
  * Color codes for the modification types
+ * @member DEFAULT Red
  * @member INSERT Green
  * @member REMOVE Red
  * @member REPLACE Yellow
  */
 export const ModificationColorCodes = {
+  DEFAULT: chalk.red,
   INSERT: chalk.green,
   REMOVE: chalk.red,
   REPLACE: chalk.yellow,
@@ -46,7 +49,7 @@ export const ModificationColorCodes = {
  * Fix-it Hint
  *
  * @class FixItHint
- * @member modification Modification type (INSERT, REMOVE, REPLACE)
+ * @member modification Modification type (DEFAULT, INSERT, REMOVE, REPLACE)
  * @member range Range in the string
  * @member text Text to insert, replace or remove
  *
@@ -71,7 +74,7 @@ export class FixItHint {
   text?: string;
 
   /**
-   * @param modification Modification type (INSERT, REMOVE, REPLACE)
+   * @param modification Modification type (DEFAULT, INSERT, REMOVE, REPLACE)
    * @param range Range in the string
    * @private
    */
@@ -82,9 +85,18 @@ export class FixItHint {
       if (text === undefined) throw new Error("Text is required for INSERT and REPLACE modifications");
       if (modification === "INSERT" && range.length > 1) throw new Error("Length must be 1 for INSERT modifications");
       this.text = text;
-    } else if (modification === "REMOVE") {
+    } else if (modification === "REMOVE" || modification === "DEFAULT") {
       if (text !== undefined) throw new Error("Text is not supported for REMOVE modifications");
     }
+  }
+
+  /**
+   * Creates a FixIt Hint without any modification type
+   * @param range Range in the string
+   * @returns Fix-it Hint Object
+   */
+  static create(range: RangeType): FixItHint {
+    return new FixItHint("DEFAULT", range);
   }
 
   /**
