@@ -241,7 +241,7 @@ export class DiagnosticsMessage {
   setFile(file: string): this {
     if (/\r?\n/.test(file)) throw new Error("File name cannot contain newlines.");
     // Escape all special characters (which are not yet escaped with the prefix `\`) in file names
-    file = file.replace("\\", "").replace(/[$#&*?;|<>(){}[\]'"`~!\\ ]/g, '\\$&');
+    file = file.replace("\\", "").replace(/[$#&*?;|<>(){}[\]'"`~!\\ ]/g, "\\$&");
 
     this.file = file;
     return this;
@@ -360,13 +360,10 @@ export class DiagnosticsMessage {
     let hintLine = "";
 
     // Determine the maximum width of the first line based on the FixIt Hints and the message
+    const lastFixitHint = this.fixitHints.length > 0 ? this.fixitHints[this.fixitHints.length - 1] : undefined;
     const maxWidth =
-      this.fixitHints.length > 0
-        ? Math.max(
-            this.fixitHints[this.fixitHints.length - 1].range.index +
-              this.fixitHints[this.fixitHints.length - 1].range.length,
-            this.message.text.length
-          )
+      lastFixitHint !== undefined
+        ? lastFixitHint.range.index + Math.max(lastFixitHint.range.length, lastFixitHint.text?.length ?? 0)
         : this.message.text.length;
 
     // Append each character (either caret or fixit-hint) line by line
