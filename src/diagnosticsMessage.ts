@@ -241,7 +241,7 @@ export class DiagnosticsMessage {
   setFile(file: string): this {
     if (/\r?\n/.test(file)) throw new Error("File name cannot contain newlines.");
     // Escape all special characters (which are not yet escaped with the prefix `\`) in file names
-    file = file.replace("\\", "").replace(/[$#&*?;|<>(){}[\]'"`~!\\ ]/g, "\\$&");
+    file = file.replace(/\\/gi, "").replace(/[$#&*?;|<>(){}[\]'"`~!\\ ]/g, "\\$&");
 
     this.file = file;
     return this;

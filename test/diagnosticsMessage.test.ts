@@ -108,10 +108,10 @@ describe("Diagnostics Message boundaries", () => {
     {
       description: "Filename contains special characters",
       input: {
-        file: "test file&name\\ space.ts",
+        file: "test file&name\\ space\\ twice&.ts",
         message: { text: "Subject", linenumber: 1, column: 1 },
       },
-      expected: `test\\ file\\&name\\ space.ts:1:1: note: Subject`,
+      expected: `test\\ file\\&name\\ space\\ twice\\&.ts:1:1: note: Subject`,
     },
   ];
 
