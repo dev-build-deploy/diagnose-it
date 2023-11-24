@@ -232,13 +232,16 @@ export class DiagnosticsMessage {
   /**
    * Sets the path towards the file associated with the Diagnostics Message.
    *
-   * Note: The file path cannot contain newlines or spaces.
+   * Notes:
+   * - The file path cannot contain newlines.
+   * - All special characters in filenames ( $ # & * ? ; | < > ( ) { } [ ] ' " ` ~ ! \ ) will be escaped.
    * @param file File path
    * @returns this
    */
   setFile(file: string): this {
     if (/\r?\n/.test(file)) throw new Error("File name cannot contain newlines.");
-    if (file.includes(" ")) throw new Error("File name cannot contain spaces.");
+    // Escape all special characters (which are not yet escaped with the prefix `\`) in file names
+    file = file.replace("\\", "").replace(/[$#&*?;|<>(){}[\]'"`~!\\ ]/g, '\\$&');
 
     this.file = file;
     return this;

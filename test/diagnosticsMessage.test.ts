@@ -105,6 +105,14 @@ describe("Diagnostics Message boundaries", () => {
       },
       expected: undefined,
     },
+    {
+      description: "Filename contains special characters",
+      input: {
+        file: "test file&name\\ space.ts",
+        message: { text: "Subject", linenumber: 1, column: 1 },
+      },
+      expected: `test\\ file\\&name\\ space.ts:1:1: note: Subject`,
+    },
   ];
 
   testData.forEach(data => {
@@ -112,7 +120,7 @@ describe("Diagnostics Message boundaries", () => {
       if (data.expected === undefined) {
         expect(() => {
           new DiagnosticsMessage(data.input);
-        }).toThrowError();
+        }).toThrow();
         return;
       }
       const msg = new DiagnosticsMessage(data.input);
