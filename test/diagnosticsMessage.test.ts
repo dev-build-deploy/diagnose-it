@@ -105,14 +105,6 @@ describe("Diagnostics Message boundaries", () => {
       },
       expected: undefined,
     },
-    {
-      description: "Filename contains special characters",
-      input: {
-        file: "test file&name\\ space\\ twice&.ts",
-        message: { text: "Subject", linenumber: 1, column: 1 },
-      },
-      expected: `test\\ file\\&name\\ space\\ twice\\&.ts:1:1: note: Subject`,
-    },
   ];
 
   testData.forEach(data => {
@@ -125,6 +117,41 @@ describe("Diagnostics Message boundaries", () => {
       }
       const msg = new DiagnosticsMessage(data.input);
       expect(unchalk(msg.toString())).toBe(data.expected);
+    });
+  });
+});
+
+describe("Filename patterns", () => {
+  const testData = [
+    {
+      description: "Standard filename",
+      input: "test.ts",
+      expected: "test.ts",
+    },
+    {
+      description: "Filename contains special characters (not escaped)",
+      input: "test with spaces & more.ts",
+      expected: "test\\ with\\ spaces\\ \\&\\ more.ts",
+    },
+    {
+      description: "Filename contains special characters (already escaped)",
+      input: "test\\ with\\ spaces\\ \\&\\ more.ts",
+      expected: "test\\ with\\ spaces\\ \\&\\ more.ts",
+    },
+    {
+      description: "Filename contains special characters (mixed escape)",
+      input: "test\\ with spaces & more\\?.ts",
+      expected: "test\\ with\\ spaces\\ \\&\\ more\\?.ts",
+    },
+  ];
+
+  testData.forEach(data => {
+    test(data.description, () => {
+      const msg = new DiagnosticsMessage({
+        file: data.input,
+        message: { text: "Subject", linenumber: 1, column: 1 },
+      });
+      expect(msg.file).toBe(data.expected);
     });
   });
 });
