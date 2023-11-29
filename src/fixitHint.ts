@@ -127,4 +127,27 @@ export class FixItHint {
   static createRemoval(range: RangeType): FixItHint {
     return new FixItHint("REMOVE", range);
   }
+
+  /**
+   * Applies the fix-it hint to the provided line
+   * @param line Line to apply the fix-it hint to
+   * @returns Line with the fix-it hint applied
+   */
+  apply(line: string): string {
+    let result = line;
+    switch (this.modification) {
+      case "INSERT":
+        result = result.slice(0, this.range.index - 1) + this.text + result.slice(this.range.index - 1);
+        break;
+      case "REMOVE":
+        result = result.slice(0, this.range.index - 1) + result.slice(this.range.index - 1 + this.range.length);
+        break;
+      case "REPLACE":
+        result =
+          result.slice(0, this.range.index - 1) + this.text + result.slice(this.range.index - 1 + this.range.length);
+        break;
+    }
+
+    return result;
+  }
 }

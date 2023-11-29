@@ -14,3 +14,5 @@ export {
 export { FixItHint, RangeType, ModificationType } from "./fixitHint";
 
 export { extractFromFile, extractFromSarif } from "./parser";
+
+export { createPatch } from "./diff";

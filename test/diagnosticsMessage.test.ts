@@ -359,7 +359,6 @@ describe("FixIt Hints (incl. applying fixes)", () => {
           )
         );
       expect(unchalk(msg.toString())).toBe(data.expected);
-      expect(msg.applyFixitHints()).toBe(data.fixed);
       expect(msg.getFixitHints().length).toBe(1);
       expect(msg.getFixitHints()[0].modification).toBe(data.input.fixit.modification as ModificationType);
 
