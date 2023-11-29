@@ -29,8 +29,8 @@ describe("Create and Apply Patch", () => {
   const testData = [
     {
       description: "No FixIt hints",
-      patch: `--- example.py 01/01/2020, 01:00:00
-+++ example.py.fix 01/01/2020, 01:00:00
+      patch: `--- example.py 01/01/2020, 00:00:00
++++ example.py.fix 01/01/2020, 00:00:00
 @@ -1,3 +1,3 @@
  Line 1
  Line 2
@@ -42,8 +42,8 @@ Line 3`,
     {
       description: "Single Insertion FixIt hint",
       fixit: [FixItHint.createInsertion(1, "First ")],
-      patch: `--- example.py 01/01/2020, 01:00:00
-+++ example.py.fix 01/01/2020, 01:00:00
+      patch: `--- example.py 01/01/2020, 00:00:00
++++ example.py.fix 01/01/2020, 00:00:00
 @@ -1,3 +1,3 @@
 -Line 1
 +First Line 1
@@ -56,8 +56,8 @@ Line 3`,
     {
       description: "Single Removal FixIt hint",
       fixit: [FixItHint.createRemoval({ index: 5, length: 2 })],
-      patch: `--- example.py 01/01/2020, 01:00:00
-+++ example.py.fix 01/01/2020, 01:00:00
+      patch: `--- example.py 01/01/2020, 00:00:00
++++ example.py.fix 01/01/2020, 00:00:00
 @@ -1,3 +1,3 @@
 -Line 1
 +Line
@@ -70,8 +70,8 @@ Line 3`,
     {
       description: "Single Replacement FixIt hint",
       fixit: [FixItHint.createReplacement({ index: 1, length: 6 }, "First")],
-      patch: `--- example.py 01/01/2020, 01:00:00
-+++ example.py.fix 01/01/2020, 01:00:00
+      patch: `--- example.py 01/01/2020, 00:00:00
++++ example.py.fix 01/01/2020, 00:00:00
 @@ -1,3 +1,3 @@
 -Line 1
 +First
@@ -84,8 +84,8 @@ Line 3`,
     {
       description: "Multiple FixIt hints",
       fixit: [FixItHint.createInsertion(1, "First "), FixItHint.createRemoval({ index: 5, length: 2 })],
-      patch: `--- example.py 01/01/2020, 01:00:00
-+++ example.py.fix 01/01/2020, 01:00:00
+      patch: `--- example.py 01/01/2020, 00:00:00
++++ example.py.fix 01/01/2020, 00:00:00
 @@ -1,3 +1,3 @@
 -Line 1
 +First Line
