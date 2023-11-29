@@ -5,6 +5,7 @@
 
 import chalk from "chalk";
 import { FixItHint, ModificationColorCodes } from "./fixitHint";
+import { applyPatch, createPatch } from "./diff";
 
 /**
  * Diagnostics Message Level
@@ -431,30 +432,11 @@ export class DiagnosticsMessage {
     return message.join("\n");
   }
 
+  /**
+   * Applies the FixIt hints to the context and returns the result as a string.
+   * @returns Fixed string
+   */
   applyFixitHints(): string {
-    if (this.context === undefined) {
-      throw new Error("Cannot apply FixIt hints without a context.");
-    }
-
-    let result = this.context.lines[(this.message.linenumber ?? 1) - this.context.linenumber];
-
-    this.fixitHints.forEach(fixit => {
-      switch (fixit.modification) {
-        case "INSERT":
-          result = result.slice(0, fixit.range.index - 1) + fixit.text + result.slice(fixit.range.index - 1);
-          break;
-        case "REMOVE":
-          result = result.slice(0, fixit.range.index - 1) + result.slice(fixit.range.index - 1 + fixit.range.length);
-          break;
-        case "REPLACE":
-          result =
-            result.slice(0, fixit.range.index - 1) +
-            fixit.text +
-            result.slice(fixit.range.index - 1 + fixit.range.length);
-          break;
-      }
-    });
-
-    return result;
+    return applyPatch(createPatch(this));
   }
 }

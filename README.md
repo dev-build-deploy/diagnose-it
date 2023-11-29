@@ -13,7 +13,7 @@ Lightweight diagnostics logger, based on [LLVMs Expressive Diagnostics specifica
 ## Features
 
 * Simple to use
-* Based on [LLVMs Expressive Diagnostics specification]
+* Inspired by the [LLVMs Expressive Diagnostics specification]
 * Provide context to your diagnostics messages
 
 ## Usage
@@ -22,31 +22,30 @@ Lightweight diagnostics logger, based on [LLVMs Expressive Diagnostics specifica
 
 ```ts
 import { DiagnosticsMessage, FixItHint } from '@dev-build-deploy/diagnose-it';
-
 const lines = `steps:
   - uses: actions/checkout@v2
   - neds: [build, test]
     - uses: actions/setup-node@v2`;
-
+  
 // Example use case
 const message = DiagnosticsMessage.createError(
   "example.yaml",
   {
     text: "Invalid keyword 'neds'",
     linenumber: 9,
-    column: 4
+    column: 5
   }
 )
   // Add context to the diagnostics message
   .setContext(7, lines)
   // Add a FixIt Hint
-  .addFixitHint(FixItHint.createReplacement({index: 5, length: 4}, "needs"));
+  .addFixitHint(FixItHint.createReplacement({ index: 5, length: 4 }, "needs"));
 
 // Convert to string
 console.log(message.toString());
 
 // Apply FixIt Hints
-console.log("Results after applying FixIt Hints:", message.applyFixitHints())
+console.log("Results after applying FixIt Hints:", message.applyFixitHints());
 
 // Throw as an Error
 throw message;
@@ -70,13 +69,15 @@ for await(const message of diagnoseIt.extractFromFile("build.log")) {
 
 ## Output format
 
-DiagnoseIt is based on the [LLVMs Expressive Diagnostics formatting](https://clang.llvm.org/diagnostics.html);
+`DiagnoseIt` is inspired by the [LLVMs Expressive Diagnostics formatting](https://clang.llvm.org/diagnostics.html);
 
 <img src="./docs/formatting.svg">
 
+*However, it does not aim to provide full compatibility.*
+
 ## Contributing
 
-If you have suggestions for how diagnose-it could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
+If you have suggestions for how `DiagnoseIt` could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
 
 For more, check out the [Contributing Guide](CONTRIBUTING.md).
 

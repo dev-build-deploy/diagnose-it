@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/dev-build-deploy/diagnose-it#readme",
   "devDependencies": {
+    "@types/diff": "^5.0.8",
     "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
@@ -42,6 +43,7 @@
   ],
   "dependencies": {
     "@dev-build-deploy/sarif-it": "<1",
-    "chalk": "<5"
+    "chalk": "<5",
+    "diff": "^5.1.0"
   }
 }
