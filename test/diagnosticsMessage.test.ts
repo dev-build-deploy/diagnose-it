@@ -167,10 +167,10 @@ describe("Diagnostics Message context", () => {
       },
       expected: `test.ts:1:1: note: Subject
 
-1 | Line 1
-  | ^
-2 | Line 2
-3 | Line 3`,
+  1 | Line 1
+    | ^
+  2 | Line 2
+  3 | Line 3`,
     },
     {
       description: "Variable linenumber widths",
@@ -181,10 +181,10 @@ describe("Diagnostics Message context", () => {
       },
       expected: `test.ts:99:3: note: Subject
 
- 99 | Line 1
-    |   ^
-100 | Line 2
-101 | Line 3`,
+   99 | Line 1
+      |   ^
+  100 | Line 2
+  101 | Line 3`,
     },
     {
       description: "Caret on other line in context",
@@ -195,10 +195,10 @@ describe("Diagnostics Message context", () => {
       },
       expected: `test.ts:100:6: note: Subject
 
- 99 | Line 1
-100 | Line 2
-    |      ^
-101 | Line 3`,
+   99 | Line 1
+  100 | Line 2
+      |      ^
+  101 | Line 3`,
     },
     {
       description: "Negative line number in Context",
@@ -250,10 +250,10 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `Lino 2`,
       expected: `test.ts:100:4: note: Generic error
 
- 99 | Line 1
-100 | Lino 2
-    |    ~
-101 | Line 3`,
+   99 | Line 1
+  100 | Lino 2
+      |    ~
+  101 | Line 3`,
     },
     {
       description: "Highlight multiple character(s)",
@@ -266,10 +266,10 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `eniL 2`,
       expected: `test.ts:100:1: note: Generic error
 
- 99 | Line 1
-100 | eniL 2
-    | ~~~~
-101 | Line 3`,
+   99 | Line 1
+  100 | eniL 2
+      | ~~~~
+  101 | Line 3`,
     },
     {
       description: "Replace single character",
@@ -282,11 +282,11 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `Line 2`,
       expected: `test.ts:100:6: note: Replace character(s)
 
- 99 | Line 1
-100 | Line 4
-    |      ^
-    |      2
-101 | Line 3`,
+   99 | Line 1
+  100 | Line 4
+      |      ^
+      |      2
+  101 | Line 3`,
     },
     {
       description: "Replace character range",
@@ -299,11 +299,11 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `Line 2`,
       expected: `test.ts:100:1: note: Replace character(s)
 
- 99 | Line 1
-100 | Foo 2
-    | ^~~
-    | Line
-101 | Line 3`,
+   99 | Line 1
+  100 | Foo 2
+      | ^~~
+      | Line
+  101 | Line 3`,
     },
     {
       description: "Remove single character",
@@ -316,10 +316,10 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `Line 2`,
       expected: `test.ts:100:3: note: Incorrect character(s)
 
- 99 | Line 1
-100 | Liine 2
-    |   ^
-101 | Line 3`,
+   99 | Line 1
+  100 | Liine 2
+      |   ^
+  101 | Line 3`,
     },
     {
       description: "Remove range of characters",
@@ -332,10 +332,10 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `Line 2`,
       expected: `test.ts:100:3: note: Incorrect character(s)
 
- 99 | Line 1
-100 | Liiiine 2
-    |   ^~~
-101 | Line 3`,
+   99 | Line 1
+  100 | Liiiine 2
+      |   ^~~
+  101 | Line 3`,
     },
     {
       description: "Insert a single character",
@@ -348,11 +348,11 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `Line 2`,
       expected: `test.ts:100:4: note: Missing character(s)
 
- 99 | Line 1
-100 | Lin 2
-    |    ^
-    |    e
-101 | Line 3`,
+   99 | Line 1
+  100 | Lin 2
+      |    ^
+      |    e
+  101 | Line 3`,
     },
     {
       description: "Insert multiple characters",
@@ -365,11 +365,11 @@ describe("FixIt Hints (incl. applying fixes)", () => {
       fixed: `Line 2`,
       expected: `test.ts:100:4: note: Missing character(s)
 
- 99 | Line 1
-100 | Lin
-    |    ^
-    |    e 2
-101 | Line 3`,
+   99 | Line 1
+  100 | Lin
+      |    ^
+      |    e 2
+  101 | Line 3`,
     },
   ];
 
