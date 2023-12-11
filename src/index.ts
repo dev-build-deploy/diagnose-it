@@ -3,16 +3,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-export {
-  DiagnosticsContextType,
-  DiagnosticsLevelEnum,
-  DiagnosticsMessage,
-  DiagnosticsMessageType,
-  IDiagnosticsMessage,
-} from "./diagnosticsMessage";
+export { DiagnosticsLevelEnum, DiagnosticsMessage } from "./diagnosticsMessage.js";
 
-export { FixItHint, RangeType, ModificationType } from "./fixitHint";
+export { FixItHint } from "./fixitHint.js";
+export { extractFromFile, extractFromSarif } from "./parser.js";
+export { createPatch } from "./diff.js";
 
-export { extractFromFile, extractFromSarif } from "./parser";
+// Types
+export type { DiagnosticsContextType, DiagnosticsMessageType, IDiagnosticsMessage } from "./diagnosticsMessage.js";
 
-export { createPatch } from "./diff";
+export type { ModificationType, RangeType } from "./fixitHint.js";

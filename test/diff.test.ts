@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { DiagnosticsLevelEnum, DiagnosticsMessage } from "../src/diagnosticsMessage";
-import { applyPatch, createPatch } from "../src/diff";
-import { FixItHint } from "../src/fixitHint";
+import { jest } from "@jest/globals";
+
+import { DiagnosticsLevelEnum, DiagnosticsMessage } from "../src/diagnosticsMessage.js";
+import { applyPatch, createPatch } from "../src/diff.js";
+import { FixItHint } from "../src/fixitHint.js";
 
 import fs from "fs";
 

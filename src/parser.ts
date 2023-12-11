@@ -5,7 +5,7 @@
 
 import readline from "readline";
 import fs from "fs";
-import { DiagnosticsLevelEnum, DiagnosticsMessage } from "./diagnosticsMessage";
+import { DiagnosticsLevelEnum, DiagnosticsMessage } from "./diagnosticsMessage.js";
 import * as sarif from "@dev-build-deploy/sarif-it";
 
 const LLVM_EXPRESSIVE_DIAGNOSTICS_REGEX = new RegExp(

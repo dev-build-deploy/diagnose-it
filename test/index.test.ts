@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { DiagnosticsLevelEnum, DiagnosticsMessage, FixItHint, extractFromFile } from "../src/index";
+import { DiagnosticsLevelEnum, DiagnosticsMessage, FixItHint, extractFromFile } from "../src/index.js";
 import * as fs from "fs";
 
 // eslint-disable-next-line no-control-regex

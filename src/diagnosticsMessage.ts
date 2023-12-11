@@ -4,8 +4,8 @@
  */
 
 import chalk from "chalk";
-import { FixItHint, ModificationColorCodes } from "./fixitHint";
-import { applyPatch, createPatch } from "./diff";
+import { FixItHint, ModificationColorCodes } from "./fixitHint.js";
+import { applyPatch, createPatch } from "./diff.js";
 
 /**
  * Diagnostics Message Level
@@ -42,7 +42,7 @@ export enum DiagnosticsLevelEnum {
  */
 type DiagnosticsLevelType = {
   text: string;
-  color: chalk.Chalk;
+  color: typeof chalk;
 };
 
 /**

@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { DiagnosticsMessage, FixItHint } from "../src/index";
+import { DiagnosticsMessage, FixItHint } from "../src/index.js";
+
+import { jest } from "@jest/globals";
 
 import fs from "fs";
 

@@ -5,8 +5,8 @@
 
 import chalk from "chalk";
 
-import { DiagnosticsLevelEnum, DiagnosticsMessage } from "../src/diagnosticsMessage";
-import { FixItHint, ModificationType } from "../src/fixitHint";
+import { DiagnosticsLevelEnum, DiagnosticsMessage } from "../src/diagnosticsMessage.js";
+import { FixItHint, ModificationType } from "../src/fixitHint.js";
 
 // eslint-disable-next-line no-control-regex
 const unchalk = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, "");

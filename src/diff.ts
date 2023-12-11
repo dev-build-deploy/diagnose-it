@@ -5,7 +5,7 @@
 
 import fs from "fs";
 import * as diff from "diff";
-import { DiagnosticsMessage } from "./diagnosticsMessage";
+import { DiagnosticsMessage } from "./diagnosticsMessage.js";
 
 /**
  * Creates a patch based on an unified Diff.
