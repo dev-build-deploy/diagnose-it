@@ -400,6 +400,7 @@ export class DiagnosticsMessage {
     result.push("");
 
     const maxWidth = (this.context.linenumber + this.context.lines.length).toString().length;
+    const spacing = " ".repeat(2);
     const seperator = " | ";
 
     for (let i = 0; i < this.context.lines.length; i++) {
@@ -408,10 +409,10 @@ export class DiagnosticsMessage {
       const line = this.context.lines[i];
       const linenumber = (this.context.linenumber + i).toString().padStart(maxWidth, " ");
 
-      result.push(lineColor(`${linenumber}${seperator}${line}`));
+      result.push(lineColor(`${spacing}${linenumber}${seperator}${line}`));
 
       if (this.context.linenumber + i === this.message.linenumber) {
-        result.push(...this.getFixitHintsString(`${" ".repeat(maxWidth)}${seperator}`));
+        result.push(...this.getFixitHintsString(`${spacing}${" ".repeat(maxWidth)}${seperator}`));
       }
     }
     return result;
