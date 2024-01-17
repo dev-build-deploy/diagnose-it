@@ -43,7 +43,7 @@
   ],
   "dependencies": {
     "@dev-build-deploy/sarif-it": "<1",
-    "chalk": "<5",
+    "chalk": "<6",
     "diff": "^5.1.0"
   }
 }
