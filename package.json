@@ -44,6 +44,6 @@
   "dependencies": {
     "@dev-build-deploy/sarif-it": "<1",
     "chalk": "<5",
-    "diff": "^5.1.0"
+    "diff": "^7.0.0"
   }
 }
